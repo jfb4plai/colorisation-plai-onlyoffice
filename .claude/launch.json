@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "colorization-test",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["http-server", "C:/Users/jfbeg/OneDrive/claude-workspace/Colorization OnlyOffice", "-p", "8765", "--cors", "-c-1"],
+      "port": 8765
+    }
+  ]
+}

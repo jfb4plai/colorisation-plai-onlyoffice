@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mode d'emploi — Colorisation PLAI pour OnlyOffice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  /* ── Reset & Base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --plai-teal: #0a9370;
+    --plai-teal-light: #e1f5ee;
+    --plai-orange: #f97316;
+    --plai-black: #1a1a1a;
+    --plai-gray: #f5f5f7;
+    --plai-border: #e0e0e0;
+    --plai-text: #333;
+    --plai-muted: #666;
+  }
+
+  body {
+    font-family: "DM Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.55;
+    color: var(--plai-text);
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 12mm 16mm;
+    background: #fff;
+  }
+
+  /* ── Header ── */
+  header {
+    text-align: center;
+    border-bottom: 3px solid var(--plai-teal);
+    padding-bottom: 10px;
+    margin-bottom: 18px;
+  }
+  .header-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  .header-brand img {
+    height: 32px;
+    width: auto;
+    flex-shrink: 0;
+  }
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 19pt;
+    font-weight: 400;
+    color: var(--plai-black);
+    letter-spacing: -0.3px;
+  }
+  header h1 span { color: var(--plai-teal); }
+  header .subtitle {
+    font-size: 10pt;
+    color: var(--plai-muted);
+    margin-top: 2px;
+  }
+
+  /* ── Sections ── */
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 15pt;
+    font-weight: 400;
+    color: var(--plai-teal);
+    border-left: 4px solid var(--plai-teal);
+    padding-left: 8px;
+    margin: 16px 0 8px 0;
+  }
+  h3 {
+    font-size: 11pt;
+    font-weight: 600;
+    color: var(--plai-black);
+    margin: 10px 0 5px 0;
+  }
+  p { margin-bottom: 6px; }
+  ul, ol { margin: 4px 0 8px 18px; }
+  li { margin-bottom: 3px; }
+
+  /* ── Tip / Note boxes ── */
+  .tip {
+    background: var(--plai-teal-light);
+    border-left: 4px solid var(--plai-teal);
+    padding: 7px 10px;
+    border-radius: 0 6px 6px 0;
+    margin: 8px 0;
+    font-size: 9.5pt;
+  }
+  .tip strong { color: var(--plai-teal); }
+
+  .note {
+    background: #fff8e1;
+    border-left: 4px solid #f9a825;
+    padding: 7px 10px;
+    border-radius: 0 6px 6px 0;
+    margin: 8px 0;
+    font-size: 9.5pt;
+  }
+
+  /* ── Example blocks ── */
+  .example-block {
+    background: var(--plai-gray);
+    border: 1px solid var(--plai-border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 8px 0;
+    font-size: 13pt;
+    line-height: 1.7;
+    font-family: "Georgia", serif;
+  }
+  .example-block .label {
+    display: block;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 8.5pt;
+    color: var(--plai-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 3px;
+  }
+
+  /* Colored phoneme spans */
+  .ph-eau { color: #e06000; font-weight: 600; }
+  .ph-o-noir { color: #1a1a1a; }
+  .ph-oi { color: #2196F3; font-weight: 600; }
+  .ph-an { color: #9C27B0; font-weight: 600; }
+  .ph-on { color: #4CAF50; font-weight: 600; }
+  .ph-in { color: #FF5722; font-weight: 600; }
+
+  /* Syllable alternance */
+  .syl-a { color: #E91E90; }
+  .syl-b { color: #2196F3; }
+
+  /* b/d/p/q colors */
+  .let-b { color: #E91E90; font-weight: 700; }
+  .let-d { color: #2196F3; font-weight: 700; }
+  .let-p { color: #4CAF50; font-weight: 700; }
+  .let-q { color: #FF9800; font-weight: 700; }
+
+  /* Highlight rows */
+  .highlight-demo {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    font-size: 11pt;
+    font-family: "Georgia", serif;
+    line-height: 1.8;
+  }
+  .highlight-demo .row-even { background: #fff; padding: 1px 6px; }
+  .highlight-demo .row-odd  { background: #fffde7; padding: 1px 6px; }
+
+  /* ── Kbd style ── */
+  kbd {
+    display: inline-block;
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 0 5px;
+    font-size: 9pt;
+    font-family: "Segoe UI", sans-serif;
+    vertical-align: baseline;
+  }
+
+  /* ── Two-column layout ── */
+  .cols {
+    display: flex;
+    gap: 14px;
+    margin: 6px 0;
+  }
+  .cols > div { flex: 1; }
+
+  /* ── Table ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 6px 0;
+    font-size: 9.5pt;
+  }
+  th, td {
+    border: 1px solid var(--plai-border);
+    padding: 4px 8px;
+    text-align: left;
+  }
+  th {
+    background: var(--plai-teal);
+    color: #fff;
+    font-weight: 600;
+  }
+
+  /* ── Footer ── */
+  footer {
+    margin-top: 20px;
+    padding-top: 8px;
+    border-top: 2px solid var(--plai-teal);
+    text-align: center;
+    font-size: 8.5pt;
+    color: var(--plai-muted);
+  }
+  footer strong { color: var(--plai-teal); }
+  footer a { color: var(--plai-teal); text-decoration: none; }
+
+  /* ── Page break hints ── */
+  .page-break { page-break-before: always; }
+
+  /* ── Print ── */
+  @media print {
+    body {
+      padding: 10mm 15mm;
+      font-size: 10pt;
+      max-width: none;
+    }
+    header { page-break-after: avoid; }
+    h2, h3 { page-break-after: avoid; }
+    .example-block, .tip, .note { page-break-inside: avoid; }
+    footer { page-break-before: avoid; }
+
+    @page {
+      size: A4;
+      margin: 12mm 15mm;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════ HEADER -->
+<header>
+  <div class="header-brand">
+    <img src="plai-logo.jpg" alt="Logo PLAI">
+    <h1>Mode d'emploi — Colorisation <span>PLAI</span> pour OnlyOffice</h1>
+  </div>
+  <div class="subtitle">Plugin d'aide à la lecture pour les enseignants de la Fédération Wallonie-Bruxelles</div>
+</header>
+
+<!-- ════════════════════════════════════════════════ VUE D'ENSEMBLE -->
+<h2>Vue d'ensemble</h2>
+<p>
+  Le plugin s'ouvre sous forme de <strong>fenêtre flottante</strong> à côté de votre document. Il comprend&nbsp;:
+</p>
+<ul>
+  <li>Une <strong>barre globale</strong> toujours visible en haut (surlignage, découpe, nettoyage)</li>
+  <li><strong>4 onglets</strong>&nbsp;: Phonèmes &middot; Syllabes &middot; Lettres &middot; Config</li>
+</ul>
+
+<!-- ════════════════════════════════════════════════ BARRE GLOBALE -->
+<h2>La barre globale</h2>
+<p>Toujours affichée en haut de la fenêtre, elle donne accès aux fonctions transversales&nbsp;:</p>
+
+<table>
+  <tr><th>Bouton</th><th>Fonction</th></tr>
+  <tr><td><kbd>☰ 1&nbsp;ligne&nbsp;/&nbsp;2</kbd> + carré coloré</td>
+      <td>Surligne un paragraphe sur deux. La couleur de fond est personnalisable via le carré coloré adjacent.</td></tr>
+  <tr><td><kbd>✂ 1 phrase = 1 ligne</kbd></td>
+      <td>Découpe chaque paragraphe long en une phrase par paragraphe. <em>Recommandé avant le surlignage.</em></td></tr>
+  <tr><td><kbd>✕</kbd></td>
+      <td>Retirer le surlignage (fond) sans toucher aux couleurs de texte.</td></tr>
+  <tr><td><kbd>🗑 Couleurs</kbd></td>
+      <td>Effacer <strong>toutes</strong> les couleurs (texte + fond) du document.</td></tr>
+</table>
+
+<div class="note">
+  <strong>⚠ Limitation API&nbsp;:</strong> le surlignage travaille par <em>paragraphe</em> et non par ligne visuelle.
+  Pour obtenir un résultat ligne par ligne, utilisez d'abord <kbd>✂ 1 phrase = 1 ligne</kbd>.
+</div>
+
+<div class="example-block">
+  <span class="label">Exemple — surlignage 1 ligne / 2 après découpe en phrases</span>
+  <div class="highlight-demo">
+    <div class="row-even">Le chat dort sur le canapé.</div>
+    <div class="row-odd">Il rêve de souris et de poissons.</div>
+    <div class="row-even">Dehors, la pluie tombe doucement.</div>
+    <div class="row-odd">Les oiseaux se cachent sous les feuilles.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════ ONGLET PHONÈMES -->
+<h2>Onglet Phonèmes</h2>
+<p>L'onglet principal. Il permet de coloriser les sons du texte pour faciliter le décodage.</p>
+
+<h3>Preset</h3>
+<p>Trois réglages prédéfinis&nbsp;:</p>
+<ul>
+  <li><strong>CERAS rosé</strong> (recommandé) — ne colorise que les sons complexes, les plus utiles en remédiation</li>
+  <li><strong>CERAS standard</strong> — colorise tous les phonèmes</li>
+  <li><strong>Personnalisé</strong> — vous choisissez chaque son individuellement</li>
+</ul>
+
+<h3>Grille des sons</h3>
+<p>
+  Chaque son est représenté par une <strong>case à cocher</strong> (activer/désactiver) et un <strong>sélecteur de couleur</strong>.
+</p>
+
+<h3>Graphèmes liés (&#9654;)</h3>
+<p>
+  Certains sons possèdent plusieurs graphèmes. Cliquez sur la flèche <strong>&#9654;</strong> pour les déplier et activer/désactiver chaque graphème séparément.
+</p>
+
+<div class="tip">
+  <strong>Exemple Belgique&nbsp;:</strong> le son [o] regroupe «&nbsp;o&nbsp;» simple et «&nbsp;eau/au&nbsp;». En mode BE,
+  «&nbsp;o&nbsp;» simple est désactivé (transparent) tandis que «&nbsp;eau/au&nbsp;» est activé — car en
+  Belgique, «&nbsp;o&nbsp;» et «&nbsp;eau&nbsp;» sont deux sons distincts.
+</div>
+
+<div class="example-block">
+  <span class="label">Exemple — preset CERAS rosé, région Belgique</span>
+  L'<span class="ph-oi">oi</span>seau b<span class="ph-oi">oi</span>t de l'<span class="ph-eau">eau</span>
+  d<span class="ph-an">an</span>s <span class="ph-in">un</span> b<span class="ph-o-noir">o</span>l.
+</div>
+<p style="font-size:9pt; color:var(--plai-muted); margin-top:-4px;">
+  ↑ «&nbsp;<span class="ph-eau">eau</span>&nbsp;» est colorisé en orange, «&nbsp;oi&nbsp;» en bleu, «&nbsp;an&nbsp;» en violet,
+  «&nbsp;un&nbsp;» en rouge — mais le «&nbsp;o&nbsp;» de «&nbsp;bol&nbsp;» reste en noir (désactivé en mode BE).
+</p>
+
+<h3>Portée</h3>
+<p>
+  Si du texte est <strong>sélectionné</strong> dans le document, seule la sélection est colorisée.
+  Sinon, le document entier est traité.
+</p>
+
+<h3>Workflow recommandé</h3>
+<ol>
+  <li>Tapez ou collez votre texte dans le document OnlyOffice.</li>
+  <li>Sélectionnez la portion à coloriser (ou rien pour tout le document).</li>
+  <li>Vérifiez le preset et la région (BE/FR) dans l'onglet Config.</li>
+  <li>Cliquez <kbd>Coloriser les phonèmes</kbd>.</li>
+</ol>
+
+<!-- ════════════════════════════════════════════════ ONGLET SYLLABES -->
+<div class="page-break"></div>
+<h2>Onglet Syllabes</h2>
+<p>Colorise les syllabes en alternance pour aider au découpage syllabique.</p>
+
+<table>
+  <tr><th>Réglage</th><th>Description</th></tr>
+  <tr><td>Mode</td><td><strong>Écrit</strong> (découpage orthographique) ou <strong>Oral</strong> (découpage phonologique)</td></tr>
+  <tr><td>Couleurs d'alternance</td><td>2, 3 ou 4 couleurs configurables</td></tr>
+  <tr><td>Ignorer les monosyllabes</td><td>Les mots d'une seule syllabe restent en noir</td></tr>
+</table>
+
+<div class="example-block">
+  <span class="label">Exemple — syllabes écrites, 2 couleurs</span>
+  <span class="syl-a">pa</span><span class="syl-b">pi</span><span class="syl-a">llon</span>
+  &nbsp;&mdash;&nbsp;
+  <span class="syl-a">cho</span><span class="syl-b">co</span><span class="syl-a">lat</span>
+  &nbsp;&mdash;&nbsp;
+  <span class="syl-a">é</span><span class="syl-b">lé</span><span class="syl-a">phant</span>
+</div>
+
+<!-- ════════════════════════════════════════════════ ONGLET LETTRES -->
+<h2>Onglet Lettres</h2>
+<p>Deux fonctions ciblées&nbsp;:</p>
+
+<div class="cols">
+  <div>
+    <h3>b / d / p / q</h3>
+    <p>Colorise ces 4 lettres miroir avec des couleurs distinctes pour aider à la discrimination visuelle.</p>
+    <div class="example-block">
+      <span class="label">Exemple</span>
+      une <span class="let-b">b</span>alle et une <span class="let-d">d</span>anse,
+      un <span class="let-p">p</span>ont et une <span class="let-q">q</span>uestion
+    </div>
+  </div>
+  <div>
+    <h3>Voyelles / Consonnes</h3>
+    <p>Colorise les voyelles et les consonnes en deux couleurs distinctes.</p>
+    <div class="example-block">
+      <span class="label">Exemple</span>
+      <span style="color:#E91E90">a</span><span style="color:#2196F3">m</span><span style="color:#E91E90">i</span>
+      &nbsp;&mdash;&nbsp;
+      <span style="color:#2196F3">cl</span><span style="color:#E91E90">a</span><span style="color:#2196F3">ss</span><span style="color:#E91E90">e</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════ ONGLET CONFIG -->
+<h2>Onglet Config</h2>
+
+<h3>Région&nbsp;: Belgique (FWB) / France</h3>
+<p>Ce choix modifie les associations graphème-phonème&nbsp;:</p>
+<table>
+  <tr><th></th><th>Belgique (FWB)</th><th>France</th></tr>
+  <tr><td>o / eau</td><td>Sons différents&nbsp;: «&nbsp;o&nbsp;» ≠ «&nbsp;eau&nbsp;»</td><td>Même son&nbsp;: «&nbsp;o&nbsp;» = «&nbsp;eau&nbsp;»</td></tr>
+  <tr><td>w</td><td>Prononcé [w] (wallon)</td><td>Parfois [v] (wagon)</td></tr>
+</table>
+
+<h3>Règle «&nbsp;ill&nbsp;»</h3>
+<p>
+  <strong>CERAS</strong>&nbsp;: «&nbsp;ill&nbsp;» est traité comme un seul son (ex.&nbsp;: fille). <br>
+  <strong>LireCouleur</strong>&nbsp;: «&nbsp;ill&nbsp;» est découpé en «&nbsp;i&nbsp;» + «&nbsp;j&nbsp;».
+</p>
+
+<h3>Lettres non colorisées</h3>
+<p>
+  Au choix&nbsp;: laisser inchangées (conserve la mise en forme d'origine) ou forcer en noir.
+</p>
+
+<h3>Profils</h3>
+<p>
+  Sauvegardez votre configuration personnalisée, chargez un profil existant ou exportez-le pour le partager avec des collègues.
+</p>
+
+<!-- ════════════════════════════════════════════════ CONSEILS -->
+<h2>Conseils pédagogiques</h2>
+<ul>
+  <li><strong>Commencez avec le preset CERAS rosé</strong> — il ne colorise que les sons complexes (les plus utiles en remédiation).</li>
+  <li><strong>Activez les sons progressivement</strong> au fil des leçons, en fonction des apprentissages en cours.</li>
+  <li><strong>En Belgique</strong>, laissez «&nbsp;o&nbsp;» simple désactivé (c'est le réglage par défaut du preset BE).</li>
+  <li><strong>Pour un document de remédiation</strong>&nbsp;: sélectionnez uniquement le passage difficile et ne colorisez que celui-ci.</li>
+  <li><strong>Combinez les outils</strong>&nbsp;: surlignage 1&nbsp;ligne/2 + colorisation phonémique pour les lecteurs les plus en difficulté.</li>
+  <li>Utilisez <kbd>✂ 1 phrase = 1 ligne</kbd> <strong>avant</strong> le surlignage pour un résultat optimal.</li>
+</ul>
+
+<div class="tip">
+  <strong>Astuce&nbsp;:</strong> vous pouvez sélectionner un seul paragraphe et coloriser uniquement celui-ci.
+  Idéal pour créer un exercice où l'élève compare un passage colorisé et un passage «&nbsp;normal&nbsp;».
+</div>
+
+<!-- ════════════════════════════════════════════════ FOOTER -->
+<footer>
+  <strong>PLAI</strong> — Pôle Liégeois d'Accompagnement vers une École Inclusive<br>
+  Basé sur <em>Colorization</em> de Pierre-Alain Etique — <a href="https://colorization.ch">colorization.ch</a>
+</footer>
+
+</body>
+</html>

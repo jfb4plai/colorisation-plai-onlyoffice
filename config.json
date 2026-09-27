@@ -1,0 +1,28 @@
+{
+    "name": "Colorization PLAI",
+    "nameLocale": {
+        "fr": "Colorisation PLAI"
+    },
+    "guid": "asc.{C0L0R1Z4-PL41-0000-0000-000000000001}",
+    "version": "1.0.0",
+    "baseUrl": "",
+    "minVersion": "7.0.0",
+    "variations": [
+        {
+            "description": "Colorisation phonologique pour l'aide à la lecture",
+            "descriptionLocale": {
+                "fr": "Colorisation phonologique pour l'aide à la lecture — PLAI"
+            },
+            "url": "index.html",
+            "icons": ["resources/icons/icon.png", "resources/icons/icon@2x.png"],
+            "isViewer": false,
+            "EditorsSupport": ["word"],
+            "initDataType": "none",
+            "isUpdateOleOnResize": false,
+            "type": "window",
+            "buttons": [],
+            "size": [520, 700],
+            "initOnSelectionChanged": false
+        }
+    ]
+}

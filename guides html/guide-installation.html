@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide d'installation — Colorisation PLAI pour OnlyOffice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  /* ── Reset & Base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --plai-teal: #0a9370;
+    --plai-teal-light: #e1f5ee;
+    --plai-orange: #f97316;
+    --plai-black: #1a1a1a;
+    --plai-gray: #555;
+    --plai-gray-light: #f5f5f5;
+    --plai-border: #e0e0e0;
+    --radius: 8px;
+  }
+
+  body {
+    font-family: 'DM Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: var(--plai-black);
+    line-height: 1.5;
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 24px 28px;
+    font-size: 13px;
+  }
+
+  /* ── Header ── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid var(--plai-teal);
+    padding-bottom: 10px;
+    margin-bottom: 16px;
+  }
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .header-brand img {
+    height: 32px;
+    width: auto;
+    flex-shrink: 0;
+  }
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 19px;
+    font-weight: 400;
+    color: var(--plai-black);
+    letter-spacing: -0.3px;
+  }
+  header h1 span { color: var(--plai-teal); }
+  .plai-badge {
+    background: var(--plai-orange);
+    color: #fff;
+    font-weight: 700;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── Prerequis ── */
+  .prereq {
+    background: var(--plai-gray-light);
+    border-left: 4px solid var(--plai-teal);
+    padding: 10px 14px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    margin-bottom: 16px;
+  }
+  .prereq h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 4px;
+    color: var(--plai-teal);
+  }
+  .prereq ul { list-style: none; padding: 0; }
+  .prereq li::before { content: "✓ "; color: var(--plai-teal); font-weight: 700; }
+
+  /* ── Steps ── */
+  .step {
+    border: 1px solid var(--plai-border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    page-break-inside: avoid;
+    position: relative;
+  }
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .step-num {
+    background: var(--plai-teal);
+    color: #fff;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .step-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--plai-black);
+  }
+  .step p, .step li { color: var(--plai-gray); }
+  .step ul, .step ol { padding-left: 18px; margin-top: 4px; }
+  .step li { margin-bottom: 2px; }
+
+  .url-box {
+    background: var(--plai-gray-light);
+    border: 1px solid var(--plai-border);
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 11.5px;
+    word-break: break-all;
+    display: inline-block;
+    margin: 4px 0;
+  }
+  a { color: var(--plai-teal); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .path-box {
+    background: #1a1a1a;
+    color: #f0f0f0;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 11px;
+    margin: 6px 0;
+    word-break: break-all;
+    line-height: 1.6;
+  }
+  .path-box .highlight { color: var(--plai-teal); font-weight: 700; }
+
+  .method-label {
+    display: inline-block;
+    background: var(--plai-teal);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+    margin-top: 4px;
+  }
+  .method-label.alt {
+    background: var(--plai-black);
+  }
+
+  .tip {
+    background: #fffbe6;
+    border-left: 3px solid #f5a623;
+    padding: 5px 10px;
+    border-radius: 0 4px 4px 0;
+    font-size: 12px;
+    margin-top: 6px;
+    color: #7a6000;
+  }
+  .tip strong { color: #b37d00; }
+
+  /* ── Troubleshoot ── */
+  .troubleshoot {
+    background: var(--plai-gray-light);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    page-break-inside: avoid;
+  }
+  .troubleshoot h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--plai-teal);
+    margin-bottom: 6px;
+  }
+  .troubleshoot dl { margin: 0; }
+  .troubleshoot dt {
+    font-weight: 600;
+    color: var(--plai-black);
+    margin-top: 4px;
+  }
+  .troubleshoot dd {
+    color: var(--plai-gray);
+    margin-left: 12px;
+    margin-bottom: 2px;
+  }
+  kbd {
+    background: #e8e8e8;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-family: 'Consolas', monospace;
+    font-size: 11px;
+  }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 2px solid var(--plai-teal);
+    padding-top: 8px;
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: var(--plai-gray);
+  }
+  footer strong { color: var(--plai-teal); }
+
+  /* ── Two-column for step 3 ── */
+  .methods-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 6px;
+  }
+  .method-box {
+    border: 1px solid var(--plai-border);
+    border-radius: 6px;
+    padding: 8px 10px;
+  }
+  .method-box.recommended { border-color: var(--plai-teal); }
+
+  /* ── Print ── */
+  @media print {
+    body {
+      padding: 10mm 12mm;
+      font-size: 12px;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    @page {
+      size: A4;
+      margin: 8mm 10mm;
+    }
+    header { padding-bottom: 6px; margin-bottom: 10px; }
+    .step { margin-bottom: 8px; padding: 8px 10px; }
+    a { color: var(--plai-teal) !important; }
+    a::after { content: none !important; }
+    .troubleshoot, .prereq { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════ HEADER ════ -->
+<header>
+  <div class="header-brand">
+    <img src="plai-logo.jpg" alt="Logo PLAI">
+    <h1>Guide d'installation — <span>Colorisation PLAI</span> pour OnlyOffice</h1>
+  </div>
+  <span class="plai-badge">PLAI</span>
+</header>
+
+<!-- ════ PREREQUIS ════ -->
+<section class="prereq">
+  <h2>Prérequis</h2>
+  <ul>
+    <li>Windows 10 ou 11</li>
+    <li>Connexion internet (uniquement pour le téléchargement initial)</li>
+  </ul>
+</section>
+
+<!-- ════ ÉTAPE 1 ════ -->
+<section class="step">
+  <div class="step-header">
+    <div class="step-num">1</div>
+    <div class="step-title">Télécharger OnlyOffice Desktop Editors</div>
+  </div>
+  <p>OnlyOffice est une suite bureautique <strong>gratuite, open source et européenne</strong>, compatible avec les fichiers .docx, .xlsx et .pptx.</p>
+  <div class="url-box"><a href="https://www.onlyoffice.com/fr/download-desktop.aspx" target="_blank">https://www.onlyoffice.com/fr/download-desktop.aspx</a></div>
+  <ol>
+    <li>Télécharger l'installeur Windows (.exe)</li>
+    <li>Lancer l'installeur et suivre l'assistant d'installation</li>
+    <li>Une fois installé, ouvrir OnlyOffice pour vérifier qu'il fonctionne</li>
+  </ol>
+</section>
+
+<!-- ════ ÉTAPE 2 ════ -->
+<section class="step">
+  <div class="step-header">
+    <div class="step-num">2</div>
+    <div class="step-title">Télécharger le plugin Colorisation PLAI</div>
+  </div>
+  <div class="url-box"><a href="https://github.com/jfb4plai/colorisation-plai-onlyoffice/releases" target="_blank">https://github.com/jfb4plai/colorisation-plai-onlyoffice/releases</a></div>
+  <ol>
+    <li>Cliquer sur le lien ci-dessus et télécharger le fichier <strong>.zip</strong> de la dernière version</li>
+    <li>Extraire le ZIP : clic droit sur le fichier &rarr; <strong>Extraire tout</strong></li>
+  </ol>
+</section>
+
+<!-- ════ ÉTAPE 3 ════ -->
+<section class="step">
+  <div class="step-header">
+    <div class="step-num">3</div>
+    <div class="step-title">Installer le plugin</div>
+  </div>
+
+  <div class="methods-grid">
+    <!-- Méthode A -->
+    <div class="method-box recommended">
+      <div class="method-label">Méthode A — recommandée</div>
+      <p style="font-weight:600; margin-bottom:4px;">Copie manuelle dans le dossier plugins</p>
+      <ol>
+        <li>Ouvrir l'Explorateur de fichiers</li>
+        <li>Dans la barre d'adresse, taper :<br>
+          <span class="path-box">%LOCALAPPDATA%</span><br>
+          puis valider avec Entrée</li>
+        <li>Naviguer vers :<br>
+          <div class="path-box">ONLYOFFICE\DesktopEditors\data\<span class="highlight">sdkjs-plugins</span>\</div>
+        </li>
+        <li>Copier le dossier extrait dans ce répertoire et le renommer en :<br>
+          <div class="path-box"><span class="highlight">{C0L0R1Z4-PL41-0000-0000-000000000001}</span></div>
+        </li>
+        <li>Vérifier que <strong>config.json</strong> se trouve directement dans ce dossier</li>
+      </ol>
+      <div class="tip"><strong>Astuce :</strong> le dossier <em>AppData</em> est caché par défaut. Le raccourci <kbd>%LOCALAPPDATA%</kbd> permet d'y accéder directement.</div>
+    </div>
+
+    <!-- Méthode B -->
+    <div class="method-box">
+      <div class="method-label alt">Méthode B — alternative</div>
+      <p style="font-weight:600; margin-bottom:4px;">Via le gestionnaire de plugins</p>
+      <ol>
+        <li>Ouvrir OnlyOffice Desktop Editors</li>
+        <li>Cliquer sur l'onglet <strong>Modules complémentaires</strong></li>
+        <li>Cliquer sur <strong>Gestionnaire de Plugins</strong></li>
+        <li>Cliquer sur <strong>Installer depuis un fichier</strong></li>
+        <li>Sélectionner le fichier <strong>config.json</strong> du plugin extrait</li>
+      </ol>
+      <div class="tip"><strong>Note :</strong> cette méthode peut ne pas être disponible sur toutes les versions d'OnlyOffice.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ ÉTAPE 4 ════ -->
+<section class="step">
+  <div class="step-header">
+    <div class="step-num">4</div>
+    <div class="step-title">Vérifier l'installation</div>
+  </div>
+  <ol>
+    <li>Fermer <strong>complètement</strong> OnlyOffice, puis le relancer</li>
+    <li>Ouvrir un document texte (.docx)</li>
+    <li>Cliquer sur l'onglet <strong>Modules complémentaires</strong></li>
+    <li>L'icône <strong>Colorisation PLAI</strong> doit apparaître dans la barre</li>
+    <li>Cliquer dessus : le panneau de colorisation s'ouvre sur la droite</li>
+  </ol>
+</section>
+
+<!-- ════ DÉPANNAGE ════ -->
+<section class="troubleshoot">
+  <h2>En cas de problème</h2>
+  <dl>
+    <dt>Le plugin n'apparaît pas ?</dt>
+    <dd>Vérifier que le dossier du plugin contient bien <strong>config.json</strong> au premier niveau (pas dans un sous-dossier).</dd>
+
+    <dt>Erreur au chargement du plugin ?</dt>
+    <dd>Ouvrir la console développeur avec <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F12</kbd> pour identifier l'erreur.</dd>
+
+    <dt>Le dossier sdkjs-plugins est introuvable ?</dt>
+    <dd>Vérifier qu'OnlyOffice a été lancé au moins une fois. Le dossier est créé au premier démarrage.</dd>
+
+    <dt>Besoin d'aide ?</dt>
+    <dd>Contacter l'équipe PLAI : <a href="mailto:plai@provincedeliege.be">plai@provincedeliege.be</a></dd>
+  </dl>
+</section>
+
+<!-- ════ FOOTER ════ -->
+<footer>
+  <div><strong>PLAI</strong> — Pôle Liégeois d'Accompagnement vers une École Inclusive<br>Province de Liège &middot; Fédération Wallonie-Bruxelles</div>
+  <div style="text-align:right;">Guide d'installation v1.0<br>Mars 2026</div>
+</footer>
+
+</body>
+</html>

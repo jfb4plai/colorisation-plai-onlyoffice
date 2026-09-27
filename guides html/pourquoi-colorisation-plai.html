@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colorisation PLAI pour OnlyOffice — Pourquoi ?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  @page {
+    size: A4;
+    margin: 15mm 18mm;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: "DM Sans", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.45;
+    color: #1a1a1a;
+    background: #fff;
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 12mm 16mm;
+  }
+
+  /* ── Header ── */
+  header {
+    text-align: center;
+    border-bottom: 3px solid #0a9370;
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+  }
+
+  .header-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .header-brand img {
+    height: 32px;
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17pt;
+    font-weight: 400;
+    color: #111;
+    letter-spacing: -0.3px;
+  }
+
+  header h1 span {
+    color: #0a9370;
+  }
+
+  header p.subtitle {
+    font-size: 9pt;
+    color: #555;
+    margin-top: 3px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* ── Sections ── */
+  section {
+    margin-bottom: 13px;
+  }
+
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 14pt;
+    font-weight: 400;
+    color: #0a9370;
+    margin-bottom: 5px;
+    padding-left: 8px;
+    border-left: 3px solid #0a9370;
+  }
+
+  p, li {
+    font-size: 10pt;
+    color: #222;
+  }
+
+  p {
+    margin-bottom: 5px;
+  }
+
+  ul {
+    margin: 4px 0 6px 18px;
+  }
+
+  li {
+    margin-bottom: 3px;
+  }
+
+  .ref-author {
+    font-weight: 600;
+  }
+
+  .ref-detail {
+    color: #444;
+  }
+
+  /* ── Comparison table ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.5pt;
+    margin: 6px 0;
+  }
+
+  thead th {
+    background: #111;
+    color: #fff;
+    font-weight: 600;
+    padding: 5px 8px;
+    text-align: left;
+    font-size: 9pt;
+  }
+
+  thead th:first-child {
+    background: #333;
+  }
+
+  thead th:nth-child(2) {
+    background: #f97316;
+  }
+
+  tbody td {
+    padding: 4px 8px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  tbody tr:nth-child(even) {
+    background: #fafafa;
+  }
+
+  tbody td:nth-child(2) {
+    font-weight: 600;
+    color: #076e54;
+  }
+
+  .check { color: #16a34a; font-weight: 700; }
+  .cross { color: #999; }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 2px solid #0a9370;
+    padding-top: 8px;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 8pt;
+    color: #666;
+    line-height: 1.5;
+  }
+
+  footer strong {
+    color: #111;
+  }
+
+  footer a {
+    color: #0a9370;
+    text-decoration: none;
+  }
+
+  .riss-badge {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 2px 8px;
+    background: #e1f5ee;
+    border: 1px solid #0a9370;
+    border-radius: 3px;
+    font-size: 7.5pt;
+    color: #076e54;
+    letter-spacing: 0.3px;
+  }
+
+  .limite-note {
+    background: #fffbeb;
+    border-left: 3px solid #b45309;
+    padding: 8px 12px;
+    margin-top: 8px;
+    font-size: 9pt;
+  }
+
+  .limite-note strong {
+    color: #92400e;
+  }
+
+  /* ── Print ── */
+  @media print {
+    body {
+      padding: 0;
+      max-width: none;
+      font-size: 10pt;
+    }
+
+    header, section, footer {
+      page-break-inside: avoid;
+    }
+
+    a { color: #0a9370 !important; }
+
+    .riss-badge {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    thead th {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    tbody td:nth-child(2) {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ HEADER ═══════════════ -->
+<header>
+  <div class="header-brand">
+    <img src="plai-logo.jpg" alt="Logo PLAI">
+    <h1><span>Colorisation PLAI</span> pour OnlyOffice — Pourquoi ?</h1>
+  </div>
+  <p class="subtitle">PLAI — P&ocirc;le Li&eacute;geois d'Accompagnement vers une &Eacute;cole Inclusive</p>
+</header>
+
+<!-- ═══════════════ SECTION 1 ═══════════════ -->
+<section>
+  <h2>1. Un outil scientifiquement fond&eacute;</h2>
+  <p>
+    Le plugin <strong>Colorisation PLAI</strong> colorise les phon&egrave;mes, les syllabes et propose des aides visuelles &agrave; la lecture
+    pour les &eacute;l&egrave;ves pr&eacute;sentant des difficult&eacute;s d'apprentissage (dyslexie, difficult&eacute;s de d&eacute;codage, etc.).
+    Il est bas&eacute; sur <em>Colorization.ch</em> de Pierre-Alain Etique (licence GPL-3.0), fid&egrave;lement port&eacute; vers OnlyOffice.
+  </p>
+  <p>La litt&eacute;rature scientifique francophone confirme l'int&eacute;r&ecirc;t de ces adaptations :</p>
+  <ul>
+    <li><span class="ref-author">Chenouna (2021)</span> &mdash; <span class="ref-detail">la colorisation syllabique et vocalique am&eacute;liore la vitesse et la pr&eacute;cision de lecture chez les &eacute;l&egrave;ves dyslexiques.</span></li>
+    <li><span class="ref-author">Roullet, Auzimour, Cavalli &amp; Gomez (2025)</span> &mdash; <span class="ref-detail">les adaptations graphiques individualis&eacute;es (colorisation des phon&egrave;mes, contraste entre lignes) am&eacute;liorent l'accessibilit&eacute;.</span></li>
+    <li><span class="ref-author">Krupa, Bard &amp; Hamon (2023)</span> &mdash; <span class="ref-detail">interface FROG : les &eacute;l&egrave;ves appr&eacute;cient la colorisation des syllabes et le surlignage altern&eacute; des lignes.</span></li>
+    <li><span class="ref-author">Lassault &amp; Ziegler (2018)</span> &mdash; <span class="ref-detail">revue des outils num&eacute;riques d'aide &agrave; la lecture pour les enfants en difficult&eacute;.</span></li>
+    <li><span class="ref-author">Gala et al. (2020)</span> &mdash; <span class="ref-detail">recommandations : espacement accru, interligne &eacute;largi et usage de la couleur am&eacute;liorent la lisibilit&eacute;.</span></li>
+  </ul>
+</section>
+
+<!-- ═══════════════ SECTION 2 ═══════════════ -->
+<section>
+  <h2>2. Adapt&eacute; &agrave; la phonologie belge</h2>
+  <p>
+    En Belgique francophone, les correspondances grapho-phon&eacute;miques diff&egrave;rent de la France.
+    Par exemple, &laquo;&nbsp;<strong>o</strong>&nbsp;&raquo; ne se prononce pas de la m&ecirc;me mani&egrave;re que
+    &laquo;&nbsp;<strong>eau</strong>&nbsp;&raquo; ou &laquo;&nbsp;<strong>au</strong>&nbsp;&raquo;
+    (distinction /o/ ouvert vs /o/ ferm&eacute;, absente en fran&ccedil;ais de France standard).
+  </p>
+  <ul>
+    <li>Le plugin g&egrave;re nativement la <strong>phonologie belge</strong> gr&acirc;ce au syst&egrave;me de &laquo;&nbsp;graph&egrave;mes li&eacute;s&nbsp;&raquo;.</li>
+    <li>Chaque association graph&egrave;me-phon&egrave;me peut &ecirc;tre <strong>activ&eacute;e ou d&eacute;sactiv&eacute;e</strong> par l'enseignant selon la le&ccedil;on.</li>
+    <li>Basculement <strong>BE &harr; FR en un clic</strong> via les pr&eacute;r&eacute;glages int&eacute;gr&eacute;s.</li>
+  </ul>
+  <div class="limite-note">
+    <strong>Limite assum&eacute;e &mdash; contraste des couleurs CERAS.</strong>
+    Les couleurs des pr&eacute;r&eacute;glages CERAS et CERAS-ros&eacute; reproduisent le code
+    couleur officiel utilis&eacute; sur les supports papier d&eacute;j&agrave; en classe ; elles
+    ne sont pas choisies pour le contraste &eacute;cran. Mesur&eacute;es sur fond blanc
+    (norme WCAG), la majorit&eacute; des 13&nbsp;couleurs CERAS n'atteint pas le seuil
+    recommand&eacute; de 4,5:1 (ex. jaune, gris clair, vert clair) : un &eacute;l&egrave;ve
+    malvoyant peut avoir du mal &agrave; les distinguer. Trois sons compensent en
+    partie par un second indice (gras, italique ou soulign&eacute;) ; les autres
+    reposent uniquement sur la teinte, ce qui peut aussi pr&ecirc;ter &agrave; confusion
+    en cas de daltonisme rouge-vert. Le plugin affiche un avertissement
+    (&#9888;) dans l'onglet Phon&egrave;mes lorsqu'une couleur personnalis&eacute;e est
+    sous ce seuil.
+  </div>
+</section>
+
+<!-- ═══════════════ SECTION 3 ═══════════════ -->
+<section>
+  <h2>3. RGPD <em>by design</em> &mdash; Z&eacute;ro donn&eacute;e collect&eacute;e</h2>
+  <p>
+    La protection des donn&eacute;es est un enjeu majeur en milieu scolaire.
+    <span class="ref-author">Froidevaux, Ganascia &amp; Kirchner (2024)</span> recommandent
+    de consid&eacute;rer les donn&eacute;es p&eacute;dagogiques comme <strong>sensibles</strong>.
+  </p>
+  <ul>
+    <li><strong>Traitement 100&nbsp;% local</strong> &mdash; aucun texte ne quitte l'ordinateur de l'enseignant.</li>
+    <li>Z&eacute;ro appel r&eacute;seau, z&eacute;ro cookie, z&eacute;ro pistage, <strong>aucun compte requis</strong>.</li>
+    <li>Code <strong>open source</strong> (GPL-3.0) &mdash; enti&egrave;rement auditable.</li>
+    <li>OnlyOffice : solution <strong>europ&eacute;enne</strong>, conforme RGPD, data centers neutres en carbone.</li>
+  </ul>
+</section>
+
+<!-- ═══════════════ SECTION 4 ═══════════════ -->
+<section>
+  <h2>4. OnlyOffice : une alternative europ&eacute;enne</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Caract&eacute;ristique</th>
+        <th>Colorisation PLAI (OnlyOffice)</th>
+        <th>Colorization.ch (Word)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Prix</td>
+        <td>Gratuit</td>
+        <td>Gratuit</td>
+      </tr>
+      <tr>
+        <td>Suite bureautique</td>
+        <td>OnlyOffice (gratuit, open source)</td>
+        <td>Microsoft Office (payant)</td>
+      </tr>
+      <tr>
+        <td>Traitement du texte</td>
+        <td>Local, hors ligne</td>
+        <td>Local (VSTO) ou cloud</td>
+      </tr>
+      <tr>
+        <td>Donn&eacute;es envoy&eacute;es</td>
+        <td class="check">Aucune</td>
+        <td>Variable</td>
+      </tr>
+      <tr>
+        <td>Phonologie belge</td>
+        <td class="check">Native (1 clic)</td>
+        <td>Param&eacute;trage manuel</td>
+      </tr>
+      <tr>
+        <td>Compte requis</td>
+        <td class="check">Non</td>
+        <td>Compte Microsoft</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <p><strong>PLAI &mdash; P&ocirc;le Li&eacute;geois d'Accompagnement vers une &Eacute;cole Inclusive</strong></p>
+  <p>Bas&eacute; sur <em>Colorization</em> de Pierre-Alain Etique &mdash; <a href="https://colorization.ch">colorization.ch</a></p>
+  <p class="riss-badge">&#x2705; R&eacute;f&eacute;rences scientifiques v&eacute;rifi&eacute;es dans le corpus RISS (522&nbsp;627 articles francophones)</p>
+</footer>
+
+</body>
+</html>

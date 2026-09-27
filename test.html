@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Colorisation PLAI — Moteur phonologique</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; padding: 24px; }
+        h1 { font-size: 20px; margin-bottom: 16px; color: #333; }
+        h2 { font-size: 14px; margin: 16px 0 8px; color: #555; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .test-zone {
+            background: #fff; border-radius: 8px; padding: 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1); margin-bottom: 16px;
+        }
+
+        textarea {
+            width: 100%; height: 80px; padding: 10px; font-size: 16px;
+            border: 2px solid #ddd; border-radius: 6px; resize: vertical;
+            font-family: 'Georgia', serif; line-height: 1.8;
+        }
+        textarea:focus { border-color: #4a90d9; outline: none; }
+
+        .controls {
+            display: flex; gap: 8px; margin: 12px 0; flex-wrap: wrap; align-items: center;
+        }
+        .controls label { font-size: 13px; font-weight: 600; color: #555; }
+        .controls select, .controls button {
+            padding: 6px 14px; border-radius: 4px; font-size: 13px; cursor: pointer;
+        }
+        .controls select { border: 1px solid #ccc; background: #fff; }
+
+        .btn { border: none; font-weight: 600; transition: all 0.15s; }
+        .btn-primary { background: #4a90d9; color: #fff; }
+        .btn-primary:hover { background: #3a7bc8; }
+        .btn-secondary { background: #e8e8e8; color: #555; border: 1px solid #ccc; }
+        .btn-secondary:hover { background: #d8d8d8; }
+        .btn-danger { background: #e74c3c; color: #fff; }
+
+        #output {
+            padding: 16px; background: #fafafa; border: 1px solid #e0e0e0;
+            border-radius: 6px; font-size: 20px; line-height: 2; min-height: 60px;
+            font-family: 'Georgia', serif; letter-spacing: 0.3px;
+        }
+
+        #debug {
+            margin-top: 12px; padding: 12px; background: #1e1e1e; color: #d4d4d4;
+            border-radius: 6px; font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 11px; max-height: 300px; overflow-y: auto;
+            display: none; white-space: pre-wrap;
+        }
+        #debug.visible { display: block; }
+
+        .test-words {
+            display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0;
+        }
+        .test-word {
+            padding: 4px 10px; background: #eef4ff; border: 1px solid #c0d4f0;
+            border-radius: 12px; font-size: 12px; cursor: pointer; transition: all 0.15s;
+        }
+        .test-word:hover { background: #4a90d9; color: #fff; border-color: #4a90d9; }
+
+        .comparison {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px;
+        }
+        .comparison > div { padding: 12px; border-radius: 6px; border: 1px solid #e0e0e0; }
+        .comparison h3 { font-size: 12px; color: #888; margin-bottom: 8px; }
+        .comparison .result {
+            font-size: 18px; line-height: 2; font-family: 'Georgia', serif;
+        }
+
+        .status { font-size: 11px; color: #999; margin-top: 8px; }
+        .status .ok { color: #27ae60; font-weight: 600; }
+        .status .warn { color: #e67e22; font-weight: 600; }
+        .status .err { color: #e74c3c; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<h1>🧪 Test — Colori<span style="color:#4a90d9">ƨ</span>ation PLAI pour OnlyOffice</h1>
+
+<!-- Status -->
+<div class="test-zone">
+    <h2>Chargement des modules</h2>
+    <div id="load-status"></div>
+</div>
+
+<!-- Input zone -->
+<div class="test-zone">
+    <h2>Texte à analyser</h2>
+    <textarea id="input" placeholder="Tapez ou collez un texte ici...">Le petit chat boit du lait dans un bol bleu.</textarea>
+
+    <div class="controls">
+        <label>Région :</label>
+        <select id="region">
+            <option value="be" selected>🇧🇪 Belgique (FWB)</option>
+            <option value="fr">🇫🇷 France</option>
+        </select>
+
+        <label style="margin-left:12px">Preset :</label>
+        <select id="preset">
+            <option value="ceras-rose">CERAS rosé</option>
+            <option value="ceras">CERAS standard</option>
+        </select>
+
+        <button class="btn btn-primary" onclick="colorize()">Coloriser phonèmes</button>
+        <button class="btn btn-secondary" onclick="syllabify()">Syllabes</button>
+        <button class="btn btn-secondary" onclick="toggleDebug()">Debug</button>
+    </div>
+
+    <h2>Mots-tests rapides</h2>
+    <div class="test-words">
+        <span class="test-word" onclick="testWord(this)">wagon</span>
+        <span class="test-word" onclick="testWord(this)">watt</span>
+        <span class="test-word" onclick="testWord(this)">des</span>
+        <span class="test-word" onclick="testWord(this)">les</span>
+        <span class="test-word" onclick="testWord(this)">ces</span>
+        <span class="test-word" onclick="testWord(this)">mes</span>
+        <span class="test-word" onclick="testWord(this)">oiseau</span>
+        <span class="test-word" onclick="testWord(this)">enfouir</span>
+        <span class="test-word" onclick="testWord(this)">eau</span>
+        <span class="test-word" onclick="testWord(this)">mot</span>
+        <span class="test-word" onclick="testWord(this)">chapeau</span>
+        <span class="test-word" onclick="testWord(this)">maison</span>
+        <span class="test-word" onclick="testWord(this)">pharmacie</span>
+        <span class="test-word" onclick="testWord(this)">excellent</span>
+        <span class="test-word" onclick="testWord(this)">examen</span>
+        <span class="test-word" onclick="testWord(this)">feuille</span>
+        <span class="test-word" onclick="testWord(this)">grenouille</span>
+        <span class="test-word" onclick="testWord(this)">dyslexie</span>
+        <span class="test-word" onclick="testWord(this)">psychologie</span>
+        <span class="test-word" onclick="testWord(this)">aujourd'hui</span>
+    </div>
+</div>
+
+<!-- Output -->
+<div class="test-zone">
+    <h2>Résultat</h2>
+    <div id="output"></div>
+    <div id="debug"></div>
+</div>
+
+<!-- BE/FR Comparison -->
+<div class="test-zone">
+    <h2>Comparaison BE / FR (mots sensibles)</h2>
+    <button class="btn btn-primary" onclick="compareRegions()">Comparer</button>
+    <div class="comparison" id="comparison"></div>
+</div>
+
+<!-- Mock OnlyOffice API (not needed for engine test) -->
+<script>
+    window.Asc = { plugin: { init: function(){}, button: function(){} }, scope: {} };
+</script>
+
+<!-- Load engine modules in dependency order -->
+<script src="scripts/phonemes.js"></script>
+<script src="scripts/word-lists.js"></script>
+<script src="scripts/rule-filters.js"></script>
+<script src="scripts/automat.js"></script>
+<script src="scripts/dictionary.js"></script>
+<script src="scripts/syllables.js"></script>
+<script src="scripts/config.js"></script>
+
+<script>
+    var C = window.Colorization;
+
+    // ── Init ──
+    function init() {
+        var status = document.getElementById('load-status');
+        var checks = [
+            ['Phonemes',    !!C.Phonemes],
+            ['SonMap',      !!C.SonMap],
+            ['SonInfo',     !!C.SonInfo],
+            ['WordLists',   !!C.WordLists],
+            ['RuleFilters', !!C.RuleFilters],
+            ['Automat',     !!C.Automat],
+            ['Dictionary',  !!C.Dictionary],
+            ['Syllables',   !!C.Syllables],
+            ['Config',      !!C.Config]
+        ];
+
+        var html = '';
+        var allOk = true;
+        for (var i = 0; i < checks.length; i++) {
+            var ok = checks[i][1];
+            if (!ok) allOk = false;
+            html += '<span class="status">' +
+                    (ok ? '<span class="ok">✓</span>' : '<span class="err">✗</span>') +
+                    ' ' + checks[i][0] + '</span> &nbsp; ';
+        }
+        html += '<br><span class="status" style="margin-top:4px;display:inline-block">' +
+                (allOk ? '<span class="ok">Tous les modules chargés !</span>' :
+                         '<span class="err">Modules manquants — vérifiez la console</span>') +
+                '</span>';
+        status.innerHTML = html;
+
+        // Init config
+        if (C.Config) {
+            C.Config.initCerasRose();
+        }
+    }
+
+    // ── Build config from UI ──
+    function getConfig() {
+        var config = C.Config.current;
+        config.region = document.getElementById('region').value;
+        return config;
+    }
+
+    // ── Colorize phonemes ──
+    function colorize() {
+        var text = document.getElementById('input').value;
+        var config = getConfig();
+        var analysis = C.Automat.analyzeText(text, config);
+
+        var html = renderColorized(text, analysis, config);
+        document.getElementById('output').innerHTML = html;
+
+        // Debug
+        renderDebug(text, analysis);
+    }
+
+    function renderColorized(text, analysis, config) {
+        var html = '';
+        var lastIdx = 0;
+
+        for (var i = 0; i < analysis.length; i++) {
+            var w = analysis[i];
+            if (w.start > lastIdx) {
+                html += esc(text.substring(lastIdx, w.start));
+            }
+            for (var j = 0; j < w.phonemes.length; j++) {
+                var ph = w.phonemes[j];
+                var color = C.Config.getPhonemeColor(ph.phoneme);
+                var chars = w.word.substring(ph.start, ph.end + 1);
+                if (color) {
+                    var s = 'color:rgb(' + color.r + ',' + color.g + ',' + color.b + ')';
+                    if (color.bold) s += ';font-weight:bold';
+                    if (color.italic) s += ';font-style:italic';
+                    if (color.underline) s += ';text-decoration:underline';
+                    html += '<span style="' + s + '" title="[' + ph.phoneme + '] règle: ' + ph.rule + '">' + esc(chars) + '</span>';
+                } else {
+                    html += '<span title="[' + ph.phoneme + '] règle: ' + ph.rule + '">' + esc(chars) + '</span>';
+                }
+            }
+            lastIdx = w.start + w.word.length;
+        }
+        if (lastIdx < text.length) {
+            html += esc(text.substring(lastIdx));
+        }
+        return html;
+    }
+
+    // ── Syllabify ──
+    function syllabify() {
+        var text = document.getElementById('input').value;
+        var config = getConfig();
+        var colors = ['#0000FF', '#FF0000', '#00AA00', '#FF8800'];
+        var wordRegex = /[a-zàáâäæãåāèéêëēėęîïíīįìôöòóœøōõûüùúūÿçñ\u2019']+/gi;
+        var match;
+        var html = '';
+        var lastIdx = 0;
+        var sylIdx = 0;
+
+        while ((match = wordRegex.exec(text)) !== null) {
+            if (match.index > lastIdx) {
+                html += esc(text.substring(lastIdx, match.index));
+            }
+            var syllables = C.Syllables.syllabify(match[0], config);
+            for (var i = 0; i < syllables.length; i++) {
+                var syl = syllables[i];
+                var color = colors[sylIdx % colors.length];
+                html += '<span style="color:' + color + '" title="syllabe ' + (i+1) + '/' + syllables.length + '">' + esc(syl.text) + '</span>';
+                sylIdx++;
+            }
+            lastIdx = match.index + match[0].length;
+        }
+        if (lastIdx < text.length) html += esc(text.substring(lastIdx));
+        document.getElementById('output').innerHTML = html;
+    }
+
+    // ── Debug ──
+    function renderDebug(text, analysis) {
+        var dbg = document.getElementById('debug');
+        var lines = [];
+        for (var i = 0; i < analysis.length; i++) {
+            var w = analysis[i];
+            var phStr = w.phonemes.map(function(p) {
+                return w.word.substring(p.start, p.end+1) + '→[' + p.phoneme + '] (' + p.rule + ')';
+            }).join('  |  ');
+            lines.push('📝 "' + w.word + '" : ' + phStr);
+        }
+        dbg.textContent = lines.join('\n');
+    }
+
+    function toggleDebug() {
+        document.getElementById('debug').classList.toggle('visible');
+    }
+
+    // ── Test single word ──
+    function testWord(el) {
+        document.getElementById('input').value = el.textContent;
+        colorize();
+    }
+
+    // ── Compare BE / FR ──
+    function compareRegions() {
+        var testWords = ['wagon', 'watt', 'des', 'les', 'ces', 'mes', 'ses', 'tes', 'mot', 'eau', 'oiseau', 'bol'];
+        var container = document.getElementById('comparison');
+        container.innerHTML = '';
+
+        var savedRegion = C.Config.current.region;
+
+        for (var i = 0; i < testWords.length; i++) {
+            var word = testWords[i];
+
+            // BE — apply full preset (including graphemes liés)
+            C.Config.applyRegionPreset('be');
+            var configBE = C.Config.current;
+            var analysisBE = C.Automat.analyzeText(word, configBE);
+            var htmlBE = renderColorized(word, analysisBE, configBE);
+            var phonsBE = analysisBE[0] ? analysisBE[0].phonemes.map(function(p) {
+                return word.substring(p.start, p.end+1) + '→[' + p.phoneme + ']';
+            }).join(' ') : '?';
+
+            // FR — apply full preset (including graphemes liés)
+            C.Config.applyRegionPreset('fr');
+            var configFR = C.Config.current;
+            var analysisFR = C.Automat.analyzeText(word, configFR);
+            var htmlFR = renderColorized(word, analysisFR, configFR);
+            var phonsFR = analysisFR[0] ? analysisFR[0].phonemes.map(function(p) {
+                return word.substring(p.start, p.end+1) + '→[' + p.phoneme + ']';
+            }).join(' ') : '?';
+
+            // Detect any difference (phonemes or colorization)
+            var diff = (phonsBE !== phonsFR) || (htmlBE !== htmlFR);
+
+            container.innerHTML +=
+                '<div style="background:' + (diff ? '#fff8e1' : '#f9f9f9') + '">' +
+                    '<h3>🇧🇪 BE — "' + word + '"</h3>' +
+                    '<div class="result">' + htmlBE + '</div>' +
+                    '<div class="status">' + phonsBE + '</div>' +
+                '</div>' +
+                '<div style="background:' + (diff ? '#fff8e1' : '#f9f9f9') + '">' +
+                    '<h3>🇫🇷 FR — "' + word + '"</h3>' +
+                    '<div class="result">' + htmlFR + '</div>' +
+                    '<div class="status">' + phonsFR + '</div>' +
+                '</div>';
+        }
+
+        // Restore original region
+        C.Config.applyRegionPreset(savedRegion);
+    }
+
+    function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    // ── Preset change ──
+    document.getElementById('preset').addEventListener('change', function() {
+        if (this.value === 'ceras-rose') C.Config.initCerasRose();
+        else C.Config.initCeras();
+        colorize();
+    });
+
+    document.getElementById('region').addEventListener('change', function() { colorize(); });
+    document.getElementById('input').addEventListener('input', function() { colorize(); });
+
+    // Boot
+    init();
+    colorize();
+</script>
+</body>
+</html>

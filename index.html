@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colorisation PLAI</title>
+    <link rel="stylesheet" href="https://onlyoffice.github.io/sdkjs-plugins/v1/plugins.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <div class="plugin-header">
+            <img src="resources/plai-logo.jpg" alt="Logo PLAI" class="plugin-logo">
+            <h2>Colori<span class="accent">ƨ</span>ation</h2>
+            <span class="version">PLAI — v1.0</span>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" data-tab="phonemes">Phonèmes</button>
+            <button class="tab" data-tab="syllabes">Syllabes</button>
+            <button class="tab" data-tab="lettres">Lettres</button>
+            <button class="tab" data-tab="config">Config</button>
+        </div>
+
+        <!-- Barre aide lecture — visible sur tous les onglets -->
+        <div class="global-bar" id="global-bar">
+            <div class="global-bar-row">
+                <button id="btn-alt-lines-global" class="btn btn-sm" title="Surligner un paragraphe sur deux">
+                    ☰ 1 ligne / 2
+                </button>
+                <input type="color" id="alt-line-color-global" value="#DBEAFE" title="Couleur de surlignage">
+                <button id="btn-alt-lines-off-global" class="btn btn-sm btn-ghost" title="Retirer le surlignage">
+                    ✕
+                </button>
+                <span class="global-bar-sep">│</span>
+                <button id="btn-split-sentences" class="btn btn-sm" title="Découper chaque phrase en un paragraphe distinct">
+                    ✂ 1 phrase = 1 ligne
+                </button>
+                <span class="global-bar-sep">│</span>
+                <button id="btn-remove-colors-global" class="btn btn-sm btn-ghost" title="Effacer toutes les couleurs">
+                    🗑 Couleurs
+                </button>
+            </div>
+            <div class="global-bar-note">
+                <span class="note-icon">⚠</span>
+                <span>Le surlignage alterne par <strong>paragraphe</strong>, pas par ligne visuelle
+                (limitation de l'API OnlyOffice). Utilisez "✂ 1 phrase = 1 ligne"
+                pour obtenir un surlignage ligne par ligne.</span>
+            </div>
+        </div>
+
+        <!-- Tab: Phonemes -->
+        <div class="tab-content active" id="tab-phonemes">
+            <div class="section">
+                <div class="preset-bar">
+                    <label>Preset :</label>
+                    <select id="preset-select">
+                        <option value="ceras-rose">CERAS rose</option>
+                        <option value="ceras">CERAS standard</option>
+                        <option value="custom">Personnalisé</option>
+                    </select>
+                </div>
+
+                <div class="sound-grid" id="sound-grid">
+                    <!-- Generated dynamically by config.js -->
+                </div>
+
+                <div class="scope-indicator" id="scope-indicator">
+                    <span class="scope-icon">📄</span>
+                    <span class="scope-text">Portée : <strong>document entier</strong></span>
+                    <span class="scope-hint">Sélectionnez du texte pour ne coloriser qu'une partie</span>
+                </div>
+
+                <div class="action-bar">
+                    <button id="btn-colorize-phonemes" class="btn btn-primary">
+                        Coloriser les phonèmes
+                    </button>
+                    <button id="btn-remove-colors" class="btn btn-secondary">
+                        Effacer les couleurs
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Syllables -->
+        <div class="tab-content" id="tab-syllabes">
+            <div class="section">
+                <div class="control-row">
+                    <label>Mode :</label>
+                    <select id="syl-mode">
+                        <option value="ecrit">Écrit</option>
+                        <option value="oral">Oral</option>
+                    </select>
+                </div>
+
+                <div class="syl-colors">
+                    <label>Couleurs d'alternance :</label>
+                    <div class="syl-color-row">
+                        <input type="color" class="syl-color" value="#0000FF" data-idx="0">
+                        <input type="color" class="syl-color" value="#FF0000" data-idx="1">
+                        <input type="color" class="syl-color" value="#00AA00" data-idx="2">
+                        <input type="color" class="syl-color" value="#FF8800" data-idx="3">
+                    </div>
+                    <div class="control-row">
+                        <label>Nombre de couleurs :</label>
+                        <select id="syl-num-colors">
+                            <option value="2" selected>2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-row">
+                    <label>
+                        <input type="checkbox" id="syl-ignore-mono">
+                        Ignorer les monosyllabes
+                    </label>
+                </div>
+
+                <div class="action-bar">
+                    <button id="btn-colorize-syllables" class="btn btn-primary">
+                        Coloriser les syllabes
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Letters -->
+        <div class="tab-content" id="tab-lettres">
+            <div class="section">
+                <h3>Lettres b/d/p/q</h3>
+                <p class="help-text">Aide à la discrimination visuelle des lettres miroir.</p>
+                <div class="bpdq-grid">
+                    <div class="bpdq-item">
+                        <span class="bpdq-letter" style="color:#FF0000">b</span>
+                        <input type="color" id="bpdq-b" value="#FF0000">
+                    </div>
+                    <div class="bpdq-item">
+                        <span class="bpdq-letter" style="color:#006400">p</span>
+                        <input type="color" id="bpdq-p" value="#006400">
+                    </div>
+                    <div class="bpdq-item">
+                        <span class="bpdq-letter" style="color:#0000FF">d</span>
+                        <input type="color" id="bpdq-d" value="#0000FF">
+                    </div>
+                    <div class="bpdq-item">
+                        <span class="bpdq-letter" style="color:#8B4513">q</span>
+                        <input type="color" id="bpdq-q" value="#8B4513">
+                    </div>
+                </div>
+                <div class="action-bar">
+                    <button id="btn-colorize-bpdq" class="btn btn-primary">
+                        Coloriser b/d/p/q
+                    </button>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Voyelles / Consonnes</h3>
+                <div class="voycons-row">
+                    <div class="voycons-item">
+                        <label>Voyelles :</label>
+                        <input type="color" id="color-voyelles" value="#FF0000">
+                    </div>
+                    <div class="voycons-item">
+                        <label>Consonnes :</label>
+                        <input type="color" id="color-consonnes" value="#0000FF">
+                    </div>
+                </div>
+                <div class="action-bar">
+                    <button id="btn-colorize-voycons" class="btn btn-primary">
+                        Coloriser V/C
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Config -->
+        <div class="tab-content" id="tab-config">
+            <div class="section">
+                <h3>Phonologie</h3>
+                <div class="control-row">
+                    <label>Région :</label>
+                    <select id="phonology-region">
+                        <option value="be">Belgique (FWB)</option>
+                        <option value="fr">France</option>
+                    </select>
+                </div>
+
+                <h3>Règle "ill"</h3>
+                <div class="control-row">
+                    <label>
+                        <input type="radio" name="ill-rule" value="ceras" checked>
+                        CERAS (ill = un seul son)
+                    </label>
+                </div>
+                <div class="control-row">
+                    <label>
+                        <input type="radio" name="ill-rule" value="lirecouleur">
+                        LireCouleur (ill = i + j)
+                    </label>
+                </div>
+
+                <h3>Lettres non colorisées</h3>
+                <div class="control-row">
+                    <label>
+                        <input type="radio" name="def-beh" value="transparent" checked>
+                        Laisser inchangées
+                    </label>
+                </div>
+                <div class="control-row">
+                    <label>
+                        <input type="radio" name="def-beh" value="noir">
+                        Forcer en noir
+                    </label>
+                </div>
+
+                <h3>Profils</h3>
+                <div class="action-bar">
+                    <button id="btn-save-config" class="btn btn-secondary">
+                        Sauvegarder
+                    </button>
+                    <button id="btn-load-config" class="btn btn-secondary">
+                        Charger
+                    </button>
+                    <button id="btn-export-config" class="btn btn-secondary">
+                        Exporter
+                    </button>
+                </div>
+            </div>
+
+            <div class="section credits">
+                <p>Basé sur <a href="https://github.com/paColor/Colorization" target="_blank">Colorization</a> de Pierre-Alain Etique (GPL-3.0)</p>
+                <p>Adapté pour OnlyOffice par PLAI — Pôle Liégeois d'Accompagnement vers une École Inclusive</p>
+            </div>
+        </div>
+
+        <!-- Preview -->
+        <div class="preview-section">
+            <div class="preview-label">Aperçu :</div>
+            <div id="preview-text" class="preview-box">
+                Le petit chat boit du lait dans un bol bleu.
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://onlyoffice.github.io/sdkjs-plugins/v1/plugins.js"></script>
+    <script src="scripts/phonemes.js"></script>
+    <script src="scripts/word-lists.js"></script>
+    <script src="scripts/rule-filters.js"></script>
+    <script src="scripts/automat.js"></script>
+    <script src="scripts/dictionary.js"></script>
+    <script src="scripts/syllables.js"></script>
+    <script src="scripts/config.js"></script>
+    <script src="scripts/colorizer.js"></script>
+    <script src="scripts/plugin.js"></script>
+</body>
+</html>
