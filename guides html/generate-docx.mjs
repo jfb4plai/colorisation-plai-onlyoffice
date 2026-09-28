@@ -177,7 +177,7 @@ function createInstallation() {
     // Pr\u00e9requis
     new Paragraph({ heading: HeadingLevel.HEADING_2, children: [t('Pr\u00e9requis')] }),
     bullet(t('Windows 10 ou 11')),
-    bullet(t('Connexion internet (uniquement pour le t\u00e9l\u00e9chargement initial)')),
+    bullet(t('Connexion internet au moment de l\u2019installation, puis \u00e0 chaque fois que possible ensuite \u2014 le plugin charge son contenu en ligne et se met \u00e0 jour tout seul\u00a0; il reste utilisable hors ligne une fois qu\u2019il a pu se charger au moins une fois')),
 
     // \u00c9tape 1
     new Paragraph({ heading: HeadingLevel.HEADING_1, children: [teal('\u00c9tape 1 \u2014 ', { size: 32 }), t('T\u00e9l\u00e9charger OnlyOffice Desktop Editors')] }),
@@ -188,37 +188,44 @@ function createInstallation() {
     numbered(t('Ouvrir OnlyOffice pour v\u00e9rifier qu\'il fonctionne')),
 
     // \u00c9tape 2
-    new Paragraph({ heading: HeadingLevel.HEADING_1, children: [teal('\u00c9tape 2 \u2014 ', { size: 32 }), t('T\u00e9l\u00e9charger le plugin')] }),
-    p([t('https://github.com/jfb4plai/colorisation-plai-onlyoffice/releases', { color: TEAL })]),
-    numbered(t('T\u00e9l\u00e9charger le fichier .zip de la derni\u00e8re version')),
-    numbered([t('Extraire le ZIP : clic droit \u2192 '), bold('Extraire tout')]),
+    new Paragraph({ heading: HeadingLevel.HEADING_1, children: [teal('\u00c9tape 2 \u2014 ', { size: 32 }), t('R\u00e9cup\u00e9rer le fichier du plugin')] }),
+    p([t('Le plugin est fourni par l\u2019\u00e9quipe PLAI sous la forme d\u2019un seul fichier\u00a0: '), bold('colorisation-plai.plugin')]),
+    numbered(t('R\u00e9cup\u00e9rer ce fichier aupr\u00e8s de l\u2019\u00e9quipe PLAI (email, partage r\u00e9seau, cl\u00e9 USB\u2026)')),
+    numbered(t('L\u2019enregistrer n\u2019importe o\u00f9 sur l\u2019ordinateur (Bureau ou T\u00e9l\u00e9chargements) \u2014 il ne doit pas \u00eatre d\u00e9compress\u00e9')),
+    p([gray('Code source (r\u00e9f\u00e9rence technique, pas de t\u00e9l\u00e9chargement)\u00a0: github.com/jfb4plai/colorisation-plai-onlyoffice')], { spacing: { before: 80 } }),
 
     // \u00c9tape 3
-    new Paragraph({ heading: HeadingLevel.HEADING_1, children: [teal('\u00c9tape 3 \u2014 ', { size: 32 }), t('Installer le plugin')] }),
-    new Paragraph({ heading: HeadingLevel.HEADING_2, children: [t('M\u00e9thode A \u2014 Copie manuelle (recommand\u00e9e)')] }),
-    numbered(t('Ouvrir l\'Explorateur de fichiers')),
-    numbered([t('Dans la barre d\'adresse, taper : '), bold('%LOCALAPPDATA%'), t(' puis Entr\u00e9e')]),
-    numbered([t('Naviguer vers : '), bold('ONLYOFFICE\\DesktopEditors\\data\\sdkjs-plugins\\')]),
-    numbered([t('Copier le dossier extrait et le renommer en : '), bold('{C0L0R1Z4-PL41-0000-0000-000000000001}')]),
-    numbered([t('V\u00e9rifier que '), bold('config.json'), t(' se trouve directement dans ce dossier')]),
-
-    new Paragraph({ heading: HeadingLevel.HEADING_2, children: [t('M\u00e9thode B \u2014 Via le gestionnaire de plugins')] }),
-    numbered([t('Ouvrir OnlyOffice \u2192 onglet '), bold('Modules compl\u00e9mentaires')]),
-    numbered([t('Cliquer sur '), bold('Gestionnaire de Plugins')]),
-    numbered([bold('Installer depuis un fichier'), t(' \u2192 s\u00e9lectionner config.json')]),
+    new Paragraph({ heading: HeadingLevel.HEADING_1, children: [teal('\u00c9tape 3 \u2014 ', { size: 32 }), t('Installer le plugin dans OnlyOffice')] }),
+    numbered([t('Ouvrir OnlyOffice et ouvrir n\u2019importe quel document '), bold('Word (.docx)')]),
+    numbered([t('Onglet '), bold('Modules compl\u00e9mentaires'), t(' \u2192 '), bold('Gestionnaire de Plugins')]),
+    numbered([t('Cliquer sur '), bold('Installer le plugin manuellement'), t(' (en haut \u00e0 droite)')]),
+    numbered([t('S\u00e9lectionner le fichier '), bold('colorisation-plai.plugin'), t(' puis '), bold('Ouvrir')]),
+    p([teal('Une seule fois\u00a0: ', { size: 19 }), t('cette installation ne se fait qu\u2019une fois par ordinateur. Les mises \u00e0 jour arrivent ensuite automatiquement \u2014 voir l\u2019\u00e9tape 5.')],
+      { shading: { fill: LIGHT_YELLOW, type: ShadingType.CLEAR } }),
 
     // \u00c9tape 4
     new Paragraph({ heading: HeadingLevel.HEADING_1, children: [teal('\u00c9tape 4 \u2014 ', { size: 32 }), t('V\u00e9rifier l\'installation')] }),
-    numbered([bold('Fermer compl\u00e8tement'), t(' OnlyOffice puis le relancer')]),
-    numbered(t('Ouvrir un document texte (.docx)')),
-    numbered([t('Onglet '), bold('Modules compl\u00e9mentaires'), t(' \u2192 l\'ic\u00f4ne Colorisation PLAI doit appara\u00eetre')]),
-    numbered(t('Cliquer dessus \u2192 le panneau s\'ouvre')),
+    numbered([t('Onglet '), bold('Modules compl\u00e9mentaires'), t(' \u2192 l\'ic\u00f4ne Colorisation PLAI doit appara\u00eetre (sur un document Word)')]),
+    numbered(t('Cliquer dessus \u2192 le panneau s\'ouvre dans une fen\u00eatre')),
+    numbered([t('Tester rapidement\u00a0: bouton '), bold('Coloriser les phon\u00e8mes'), t(' sur un texte')]),
+    p([teal('Important\u00a0: ', { size: 19 }), t('ce premier chargement se fait en ligne \u2014 rester connect\u00e9 lors de ce premier essai. Une fois charg\u00e9 avec succ\u00e8s, le plugin reste utilisable hors connexion.')],
+      { shading: { fill: LIGHT_YELLOW, type: ShadingType.CLEAR } }),
+
+    // \u00c9tape 5
+    new Paragraph({ heading: HeadingLevel.HEADING_1, children: [teal('\u00c9tape 5 \u2014 ', { size: 32 }), t('Mises \u00e0 jour automatiques')] }),
+    p([t('Le plugin se met \u00e0 jour '), bold('tout seul'), t(', en arri\u00e8re-plan, sans rien r\u00e9installer\u00a0:')]),
+    bullet(t('Connect\u00e9 \u00e0 internet, chaque ouverture du panneau v\u00e9rifie discr\u00e8tement s\u2019il existe une version plus r\u00e9cente')),
+    bullet([t('Si oui, elle est t\u00e9l\u00e9charg\u00e9e en t\u00e2che de fond et prend effet \u00e0 la '), bold('prochaine'), t(' ouverture \u2014 jamais en interrompant un travail en cours')]),
+    bullet(t('Sans connexion, le plugin continue de fonctionner avec la derni\u00e8re version d\u00e9j\u00e0 enregistr\u00e9e')),
+    p([teal('En clair\u00a0: ', { size: 19 }), t('une fois cette installation faite, plus besoin de la refaire \u2014 sauf annonce contraire de l\u2019\u00e9quipe PLAI (changement majeur, nouvel ordinateur\u2026).')],
+      { shading: { fill: LIGHT_YELLOW, type: ShadingType.CLEAR } }),
 
     // D\u00e9pannage
     new Paragraph({ heading: HeadingLevel.HEADING_1, children: [t('En cas de probl\u00e8me')] }),
-    bullet([bold('Le plugin n\'appara\u00eet pas ?'), t(' \u2192 V\u00e9rifier que config.json est au premier niveau du dossier.')]),
-    bullet([bold('Erreur au chargement ?'), t(' \u2192 Ctrl+Shift+F12 pour ouvrir la console d\u00e9veloppeur.')]),
-    bullet([bold('Dossier sdkjs-plugins introuvable ?'), t(' \u2192 Lancer OnlyOffice une premi\u00e8re fois (le dossier est cr\u00e9\u00e9 au 1er d\u00e9marrage).')]),
+    bullet([bold('\u00ab\u00a0Installer le plugin manuellement\u00a0\u00bb n\u2019appara\u00eet pas\u00a0?'), t(' \u2192 V\u00e9rifier la version d\u2019OnlyOffice (Aide \u2192 \u00c0 propos) et la mettre \u00e0 jour si besoin.')]),
+    bullet([bold('Panneau vide ou erreur au premier lancement\u00a0?'), t(' \u2192 V\u00e9rifier la connexion internet, r\u00e9essayer une fois connect\u00e9.')]),
+    bullet([bold('L\u2019ic\u00f4ne n\u2019appara\u00eet que sur certains documents\u00a0?'), t(' \u2192 Normal\u00a0: le plugin ne s\u2019active que sur les documents Word (.docx).')]),
+    bullet([bold('Une mise \u00e0 jour ne semble jamais arriver\u00a0?'), t(' \u2192 Rouvrir le panneau avec une connexion internet active.')]),
     bullet([bold('Besoin d\'aide ?'), t(' \u2192 plai@provincedeliege.be')]),
   ];
 
@@ -281,6 +288,8 @@ function createModeEmploi() {
     // Tip box
     p([teal('Exemple Belgique : ', { size: 19 }), t('le son [o] regroupe \u00ab\u00a0o\u00a0\u00bb simple et \u00ab\u00a0eau/au\u00a0\u00bb. En mode BE, \u00ab\u00a0o\u00a0\u00bb simple est d\u00e9sactiv\u00e9 tandis que \u00ab\u00a0eau/au\u00a0\u00bb est activ\u00e9.')],
       { shading: { fill: LIGHT_TEAL, type: ShadingType.CLEAR } }),
+    p([teal('Graphies distinctes an/in : ', { size: 19 }), t('pour les sons \u00ab\u00a0an\u00a0\u00bb et \u00ab\u00a0in\u00a0\u00bb, le panneau d\u00e9pli\u00e9 propose une orthographe par ligne (an, am, en, em \u2014 ou in, im, ain, ein, en apr\u00e8s i, yn/ym) au lieu d\u2019un seul phon\u00e8me global. Vous pouvez ainsi coloriser uniquement les mots en \u00ab\u00a0-an\u00a0\u00bb sans les mots en \u00ab\u00a0-en\u00a0\u00bb, par exemple pour un exercice cibl\u00e9 sur une seule graphie.')],
+      { spacing: { before: 100 }, shading: { fill: LIGHT_TEAL, type: ShadingType.CLEAR } }),
 
     // Example
     p([t('L\''), t('oi', { color: '2196F3', bold: true }), t('seau b'), t('oi', { color: '2196F3', bold: true }), t('t de l\''),
@@ -321,8 +330,8 @@ function createModeEmploi() {
 
     // Onglet Lettres
     new Paragraph({ heading: HeadingLevel.HEADING_1, children: [t('Onglet Lettres')] }),
-    new Paragraph({ heading: HeadingLevel.HEADING_2, children: [t('b / d / p / q')] }),
-    p(t('Colorise ces 4 lettres miroir avec des couleurs distinctes pour la discrimination visuelle.')),
+    new Paragraph({ heading: HeadingLevel.HEADING_2, children: [t('Lettres à discriminer')] }),
+    p([t('Liste '), bold('éditable'), t(' : b/d/p/q par défaut (lettres miroir), mais vous pouvez retirer une lettre (croix ×) ou en ajouter d’autres avec leur propre couleur — par exemple v/f, t/d ou m/n — pour cibler la paire qui pose problème à un élève ou un groupe donné.')]),
     p([t('une '), t('b', { color: TEAL, bold: true }), t('alle et une '),
       t('d', { color: '2196F3', bold: true }), t('anse, un '),
       t('p', { color: '4CAF50', bold: true }), t('ont et une '),

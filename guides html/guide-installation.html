@@ -150,21 +150,6 @@
   }
   .path-box .highlight { color: var(--plai-teal); font-weight: 700; }
 
-  .method-label {
-    display: inline-block;
-    background: var(--plai-teal);
-    color: #fff;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 4px;
-    margin-bottom: 6px;
-    margin-top: 4px;
-  }
-  .method-label.alt {
-    background: var(--plai-black);
-  }
-
   .tip {
     background: #fffbe6;
     border-left: 3px solid #f5a623;
@@ -224,20 +209,6 @@
   }
   footer strong { color: var(--plai-teal); }
 
-  /* ── Two-column for step 3 ── */
-  .methods-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 6px;
-  }
-  .method-box {
-    border: 1px solid var(--plai-border);
-    border-radius: 6px;
-    padding: 8px 10px;
-  }
-  .method-box.recommended { border-color: var(--plai-teal); }
-
   /* ── Print ── */
   @media print {
     body {
@@ -274,7 +245,7 @@
   <h2>Prérequis</h2>
   <ul>
     <li>Windows 10 ou 11</li>
-    <li>Connexion internet (uniquement pour le téléchargement initial)</li>
+    <li>Connexion internet au moment de l'installation, puis à chaque fois que possible ensuite — le plugin charge son contenu en ligne et se met à jour tout seul ; il reste utilisable hors ligne une fois qu'il a pu se charger au moins une fois</li>
   </ul>
 </section>
 
@@ -297,57 +268,33 @@
 <section class="step">
   <div class="step-header">
     <div class="step-num">2</div>
-    <div class="step-title">Télécharger le plugin Colorisation PLAI</div>
+    <div class="step-title">Récupérer le fichier du plugin</div>
   </div>
-  <div class="url-box"><a href="https://github.com/jfb4plai/colorisation-plai-onlyoffice/releases" target="_blank">https://github.com/jfb4plai/colorisation-plai-onlyoffice/releases</a></div>
+  <p>Le plugin est fourni par l'équipe PLAI sous la forme d'un seul fichier :</p>
+  <div class="path-box"><span class="highlight">colorisation-plai.plugin</span></div>
   <ol>
-    <li>Cliquer sur le lien ci-dessus et télécharger le fichier <strong>.zip</strong> de la dernière version</li>
-    <li>Extraire le ZIP : clic droit sur le fichier &rarr; <strong>Extraire tout</strong></li>
+    <li>Récupérez ce fichier auprès de l'équipe PLAI (email, partage réseau, clé USB…)</li>
+    <li>Enregistrez-le n'importe où sur votre ordinateur (le Bureau ou vos Téléchargements conviennent) — il ne doit pas être décompressé</li>
   </ol>
+  <div class="tip"><strong>Code source :</strong> pour information, le code du plugin est public sur
+    <a href="https://github.com/jfb4plai/colorisation-plai-onlyoffice" target="_blank">github.com/jfb4plai/colorisation-plai-onlyoffice</a> —
+    mais ce dépôt ne sert qu'à l'hébergement technique, pas à télécharger le plugin : utilisez toujours le fichier fourni par l'équipe PLAI.</div>
 </section>
 
 <!-- ════ ÉTAPE 3 ════ -->
 <section class="step">
   <div class="step-header">
     <div class="step-num">3</div>
-    <div class="step-title">Installer le plugin</div>
+    <div class="step-title">Installer le plugin dans OnlyOffice</div>
   </div>
-
-  <div class="methods-grid">
-    <!-- Méthode A -->
-    <div class="method-box recommended">
-      <div class="method-label">Méthode A — recommandée</div>
-      <p style="font-weight:600; margin-bottom:4px;">Copie manuelle dans le dossier plugins</p>
-      <ol>
-        <li>Ouvrir l'Explorateur de fichiers</li>
-        <li>Dans la barre d'adresse, taper :<br>
-          <span class="path-box">%LOCALAPPDATA%</span><br>
-          puis valider avec Entrée</li>
-        <li>Naviguer vers :<br>
-          <div class="path-box">ONLYOFFICE\DesktopEditors\data\<span class="highlight">sdkjs-plugins</span>\</div>
-        </li>
-        <li>Copier le dossier extrait dans ce répertoire et le renommer en :<br>
-          <div class="path-box"><span class="highlight">{C0L0R1Z4-PL41-0000-0000-000000000001}</span></div>
-        </li>
-        <li>Vérifier que <strong>config.json</strong> se trouve directement dans ce dossier</li>
-      </ol>
-      <div class="tip"><strong>Astuce :</strong> le dossier <em>AppData</em> est caché par défaut. Le raccourci <kbd>%LOCALAPPDATA%</kbd> permet d'y accéder directement.</div>
-    </div>
-
-    <!-- Méthode B -->
-    <div class="method-box">
-      <div class="method-label alt">Méthode B — alternative</div>
-      <p style="font-weight:600; margin-bottom:4px;">Via le gestionnaire de plugins</p>
-      <ol>
-        <li>Ouvrir OnlyOffice Desktop Editors</li>
-        <li>Cliquer sur l'onglet <strong>Modules complémentaires</strong></li>
-        <li>Cliquer sur <strong>Gestionnaire de Plugins</strong></li>
-        <li>Cliquer sur <strong>Installer depuis un fichier</strong></li>
-        <li>Sélectionner le fichier <strong>config.json</strong> du plugin extrait</li>
-      </ol>
-      <div class="tip"><strong>Note :</strong> cette méthode peut ne pas être disponible sur toutes les versions d'OnlyOffice.</div>
-    </div>
-  </div>
+  <ol>
+    <li>Ouvrir OnlyOffice Desktop Editors et ouvrir n'importe quel document <strong>Word (.docx)</strong></li>
+    <li>Cliquer sur l'onglet <strong>Modules complémentaires</strong> dans le ruban</li>
+    <li>Cliquer sur <strong>Gestionnaire de Plugins</strong></li>
+    <li>Cliquer sur le lien <strong>Installer le plugin manuellement</strong> (en haut à droite de la fenêtre)</li>
+    <li>Dans la boîte de dialogue, sélectionner le fichier <strong>colorisation-plai.plugin</strong> récupéré à l'étape précédente, puis cliquer sur <strong>Ouvrir</strong></li>
+  </ol>
+  <div class="tip"><strong>Une seule fois :</strong> cette installation ne se fait qu'une fois par ordinateur. Les mises à jour du plugin arrivent ensuite automatiquement — voir l'étape 5.</div>
 </section>
 
 <!-- ════ ÉTAPE 4 ════ -->
@@ -357,26 +304,43 @@
     <div class="step-title">Vérifier l'installation</div>
   </div>
   <ol>
-    <li>Fermer <strong>complètement</strong> OnlyOffice, puis le relancer</li>
-    <li>Ouvrir un document texte (.docx)</li>
-    <li>Cliquer sur l'onglet <strong>Modules complémentaires</strong></li>
-    <li>L'icône <strong>Colorisation PLAI</strong> doit apparaître dans la barre</li>
-    <li>Cliquer dessus : le panneau de colorisation s'ouvre sur la droite</li>
+    <li>Dans l'onglet <strong>Modules complémentaires</strong>, l'icône <strong>Colorisation PLAI</strong> doit apparaître dans le ruban (sur un document Word)</li>
+    <li>Cliquer dessus : le panneau de colorisation s'ouvre dans une fenêtre</li>
+    <li>Tester rapidement : bouton <strong>Coloriser les phonèmes</strong> sur un texte contenant quelques mots</li>
   </ol>
+  <div class="tip"><strong>Important :</strong> ce premier chargement du panneau se fait en ligne — restez connecté à internet lors de ce premier essai. Une fois qu'il s'est chargé au moins une fois avec succès, il reste utilisable hors connexion.</div>
+</section>
+
+<!-- ════ ÉTAPE 5 ════ -->
+<section class="step">
+  <div class="step-header">
+    <div class="step-num">5</div>
+    <div class="step-title">Mises à jour automatiques</div>
+  </div>
+  <p>Le plugin se met à jour <strong>tout seul</strong>, en arrière-plan, sans rien réinstaller :</p>
+  <ul>
+    <li>Quand l'ordinateur est connecté à internet, chaque ouverture du panneau vérifie discrètement s'il existe une version plus récente</li>
+    <li>Si oui, elle est téléchargée en tâche de fond et prendra effet à la <strong>prochaine</strong> ouverture du panneau — jamais en interrompant un travail en cours</li>
+    <li>Sans connexion, le plugin continue de fonctionner normalement avec la dernière version déjà enregistrée sur l'ordinateur</li>
+  </ul>
+  <div class="tip"><strong>En clair :</strong> une fois cette installation faite, vous n'aurez normalement plus jamais besoin de refaire ces étapes — sauf annonce contraire de l'équipe PLAI (changement majeur, nouvel ordinateur…).</div>
 </section>
 
 <!-- ════ DÉPANNAGE ════ -->
 <section class="troubleshoot">
   <h2>En cas de problème</h2>
   <dl>
-    <dt>Le plugin n'apparaît pas ?</dt>
-    <dd>Vérifier que le dossier du plugin contient bien <strong>config.json</strong> au premier niveau (pas dans un sous-dossier).</dd>
+    <dt>"Installer le plugin manuellement" n'apparaît pas dans le Gestionnaire de Plugins ?</dt>
+    <dd>Vérifier la version d'OnlyOffice Desktop Editors (Aide → À propos) : une version trop ancienne peut ne pas proposer cette option. Mettre à jour OnlyOffice.</dd>
 
-    <dt>Erreur au chargement du plugin ?</dt>
-    <dd>Ouvrir la console développeur avec <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F12</kbd> pour identifier l'erreur.</dd>
+    <dt>Le panneau reste vide ou affiche une erreur au premier lancement ?</dt>
+    <dd>Vérifier la connexion internet : le tout premier chargement doit se faire en ligne. Réessayer une fois connecté.</dd>
 
-    <dt>Le dossier sdkjs-plugins est introuvable ?</dt>
-    <dd>Vérifier qu'OnlyOffice a été lancé au moins une fois. Le dossier est créé au premier démarrage.</dd>
+    <dt>L'icône Colorisation PLAI n'apparaît que sur certains documents ?</dt>
+    <dd>C'est normal : le plugin ne s'active que sur les documents Word (.docx), pas sur les classeurs Excel ni les présentations.</dd>
+
+    <dt>Une mise à jour semble ne jamais arriver ?</dt>
+    <dd>Le plugin ne se met à jour qu'à l'ouverture du panneau, avec une connexion internet active à ce moment-là. Rouvrir le panneau une fois connecté.</dd>
 
     <dt>Besoin d'aide ?</dt>
     <dd>Contacter l'équipe PLAI : <a href="mailto:plai@provincedeliege.be">plai@provincedeliege.be</a></dd>
@@ -386,7 +350,7 @@
 <!-- ════ FOOTER ════ -->
 <footer>
   <div><strong>PLAI</strong> — Pôle Liégeois d'Accompagnement vers une École Inclusive<br>Province de Liège &middot; Fédération Wallonie-Bruxelles</div>
-  <div style="text-align:right;">Guide d'installation v1.0<br>Mars 2026</div>
+  <div style="text-align:right;">Guide d'installation v2.0<br>Septembre 2026</div>
 </footer>
 
 </body>
