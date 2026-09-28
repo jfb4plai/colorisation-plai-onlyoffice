@@ -54,6 +54,17 @@ window.Colorization = window.Colorization || {};
      * Each phoneme in SonMap[son] gets an entry: true (enabled) or false.
      */
     function buildGraphemes(son, region) {
+        // Sons à graphies distinctes (an/am/en/em, in/im/ain/ein...) : toutes
+        // les graphies activées par défaut, indépendamment de la région.
+        if (C.SpellingGroups && C.SpellingGroups[son]) {
+            var spellingGraphemes = {};
+            var groupKeys = Object.keys(C.SpellingGroups[son]);
+            for (var gi = 0; gi < groupKeys.length; gi++) {
+                spellingGraphemes[groupKeys[gi]] = true;
+            }
+            return spellingGraphemes;
+        }
+
         var phonemes = C.SonMap[son];
         if (!phonemes || phonemes.length <= 1) return null; // no sub-config needed
 
@@ -67,13 +78,24 @@ window.Colorization = window.Colorization || {};
     }
 
     /**
-     * Check if a specific phoneme is enabled within its son
-     * (both the son must be enabled AND the grapheme must be enabled)
+     * Check if a specific occurrence (phoneme + graphie réellement écrite) is
+     * enabled within its son (both the son must be enabled AND the grapheme
+     * must be enabled). Pour les sons à graphies distinctes (spellingBased),
+     * la clé vérifiée est la graphie classée via classifySpelling, pas le
+     * phonème du moteur (qui ne distingue pas an/en).
      */
-    function isPhonemeEnabled(sonConfig, phoneme) {
+    function isPhonemeEnabled(sonConfig, phoneme, chars) {
         if (!sonConfig || !sonConfig.enabled) return false;
         // If no graphemes sub-config, all phonemes in the son are enabled
         if (!sonConfig.graphemes) return true;
+
+        if (sonConfig.spellingBased) {
+            var son = C.phonemeToSon[phoneme];
+            var key = C.classifySpelling(son, chars);
+            if (!key) return true;
+            return sonConfig.graphemes[key] !== false;
+        }
+
         // Check specific grapheme
         return sonConfig.graphemes[phoneme] !== false;
     }
@@ -92,7 +114,8 @@ window.Colorization = window.Colorization || {};
             sons[son] = {
                 enabled: false,
                 color: { r: 0, g: 0, b: 0 },
-                graphemes: buildGraphemes(son, region)
+                graphemes: buildGraphemes(son, region),
+                spellingBased: !!(C.SpellingGroups && C.SpellingGroups[son])
             };
         }
 
@@ -151,12 +174,12 @@ window.Colorization = window.Colorization || {};
      * Get the color for a given phoneme based on current config
      * Checks both son-level AND grapheme-level enable
      */
-    function getPhonemeColor(phoneme) {
+    function getPhonemeColor(phoneme, chars) {
         var son = C.phonemeToSon[phoneme];
         if (!son) return null;
 
         var sonConfig = currentConfig.sons[son];
-        if (!isPhonemeEnabled(sonConfig, phoneme)) {
+        if (!isPhonemeEnabled(sonConfig, phoneme, chars)) {
             if (currentConfig.defBeh === 'noir') {
                 return { r: 0, g: 0, b: 0 };
             }
@@ -255,10 +278,18 @@ window.Colorization = window.Colorization || {};
                 panel.className = 'grapheme-panel';
                 panel.style.display = 'none';
 
-                var phonemes = C.SonMap[son];
+                var phonemes, getGraphemeInfo;
+                if (config.spellingBased && C.SpellingGroups[son]) {
+                    phonemes = Object.keys(C.SpellingGroups[son]);
+                    getGraphemeInfo = function (k) { return C.SpellingGroups[son][k]; };
+                } else {
+                    phonemes = C.SonMap[son];
+                    getGraphemeInfo = function (k) { return C.GraphemeInfo[k]; };
+                }
+
                 for (var pi = 0; pi < phonemes.length; pi++) {
                     var phoneme = phonemes[pi];
-                    var gInfo = C.GraphemeInfo[phoneme];
+                    var gInfo = getGraphemeInfo(phoneme);
                     if (!gInfo) continue;
 
                     var gRow = document.createElement('label');
@@ -331,6 +362,72 @@ window.Colorization = window.Colorization || {};
     }
 
     // ══════════════════════════════════════════════════════════════
+    //  UI — Lettres à discriminer (liste éditable, ex. b/d/p/q, v/f, t/d)
+    // ══════════════════════════════════════════════════════════════
+
+    /**
+     * Ajoute une lettre à discriminer avec sa couleur.
+     * Refuse les doublons et les caractères qui ne sont pas une lettre.
+     */
+    function addLettre(letter, color) {
+        letter = (letter || '').trim().toLowerCase().charAt(0);
+        if (!letter || !/[a-zàâäéèêëîïôöùûüç]/.test(letter)) return false;
+        if (currentConfig.bpdq[letter]) return false;
+        currentConfig.bpdq[letter] = color || { r: 51, g: 51, b: 51 };
+        return true;
+    }
+
+    function removeLettre(letter) {
+        delete currentConfig.bpdq[letter];
+    }
+
+    function buildLettresGrid() {
+        var grid = document.getElementById('lettres-grid');
+        if (!grid) return;
+        grid.innerHTML = '';
+
+        var letters = Object.keys(currentConfig.bpdq);
+        for (var i = 0; i < letters.length; i++) {
+            var letter = letters[i];
+            var color = currentConfig.bpdq[letter];
+
+            var item = document.createElement('div');
+            item.className = 'lettre-item';
+
+            var span = document.createElement('span');
+            span.className = 'lettre-letter';
+            span.textContent = letter;
+            span.style.color = rgbToHex(color);
+
+            var picker = document.createElement('input');
+            picker.type = 'color';
+            picker.value = rgbToHex(color);
+
+            var removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'lettre-remove';
+            removeBtn.textContent = '×';
+            removeBtn.title = 'Retirer cette lettre';
+
+            item.appendChild(span);
+            item.appendChild(picker);
+            item.appendChild(removeBtn);
+            grid.appendChild(item);
+
+            (function (l, spanEl) {
+                picker.addEventListener('input', function () {
+                    currentConfig.bpdq[l] = hexToRgb(this.value);
+                    spanEl.style.color = this.value;
+                });
+                removeBtn.addEventListener('click', function () {
+                    removeLettre(l);
+                    buildLettresGrid();
+                });
+            })(letter, span);
+        }
+    }
+
+    // ══════════════════════════════════════════════════════════════
     //  Preview
     // ══════════════════════════════════════════════════════════════
 
@@ -351,8 +448,8 @@ window.Colorization = window.Colorization || {};
             }
             for (var j = 0; j < wordInfo.phonemes.length; j++) {
                 var phon = wordInfo.phonemes[j];
-                var color = getPhonemeColor(phon.phoneme);
                 var chars = wordInfo.word.substring(phon.start, phon.end + 1);
+                var color = getPhonemeColor(phon.phoneme, chars);
 
                 if (color) {
                     var style = 'color:rgb(' + color.r + ',' + color.g + ',' + color.b + ')';
@@ -455,6 +552,9 @@ window.Colorization = window.Colorization || {};
         applyRegionPreset: applyRegionPreset,
         getPhonemeColor: getPhonemeColor,
         buildSoundGrid: buildSoundGrid,
+        addLettre: addLettre,
+        removeLettre: removeLettre,
+        buildLettresGrid: buildLettresGrid,
         updatePreview: updatePreview,
         saveConfig: saveConfig,
         loadConfig: loadConfig,

@@ -314,6 +314,48 @@ window.Colorization = window.Colorization || {};
         'verb_3p': true,  '_muet':   true
     };
 
+    // Groupes de graphies (orthographe réelle) pour les sons dont le phonème
+    // C# unique (a_tilda, e_tilda) mélange plusieurs orthographes distinctes.
+    // Contrairement à GraphemeInfo (une entrée par phonème du moteur), ici une
+    // entrée = une orthographe réellement rencontrée dans le texte, reconnue
+    // via `test` appliqué au texte capturé par l'automate (ex: "an" vs "en").
+    // Permet à l'enseignant de coloriser -an sans -en, ou l'inverse.
+    const SpellingGroups = {
+        'an': {
+            'an':    { label: 'an', example: 'dans, plante',  test: /^an$/ },
+            'am':    { label: 'am', example: 'jambe, chambre', test: /^am$/ },
+            'en':    { label: 'en', example: 'dent, vent',    test: /^en$/ },
+            'em':    { label: 'em', example: 'temps, membre', test: /^em$/ },
+            'autre': { label: 'autres graphies', example: '—', test: null }
+        },
+        'in': {
+            'in':    { label: 'in',       example: 'lapin, matin',    test: /^[iî]n$/ },
+            'im':    { label: 'im',       example: 'timbre, simple',  test: /^im$/ },
+            'ain':   { label: 'ain',      example: 'pain, main',      test: /^ain$/ },
+            'ein':   { label: 'ein',      example: 'plein, peinture', test: /^ein$/ },
+            'en_i':  { label: 'en (après i)', example: 'bien, chien', test: /^en$/ },
+            'yn_ym': { label: 'yn, ym',   example: 'syntaxe, thym',   test: /^y[nm]$/ },
+            'autre': { label: 'autres graphies', example: '—', test: null }
+        }
+    };
+
+    /**
+     * Classe le texte réellement capturé (ex: "an", "em") dans son groupe de
+     * graphie pour le son donné. Retourne 'autre' si aucun test ne correspond
+     * (garantit qu'une graphie non prévue reste colorisable, pas perdue).
+     */
+    function classifySpelling(son, chars) {
+        var groups = SpellingGroups[son];
+        if (!groups) return null;
+        var normalized = (chars || '').toLowerCase();
+        for (var key in groups) {
+            if (groups.hasOwnProperty(key) && groups[key].test && groups[key].test.test(normalized)) {
+                return key;
+            }
+        }
+        return 'autre';
+    }
+
     // Phoneme to sound reverse map (for quick lookup during colorization)
     const phonemeToSon = {};
     for (const [son, phons] of Object.entries(SonMap)) {
@@ -342,6 +384,8 @@ window.Colorization = window.Colorization || {};
     C.GraphemeInfo = GraphemeInfo;
     C.GraphemeDefaultsBE = GraphemeDefaultsBE;
     C.GraphemeDefaultsFR = GraphemeDefaultsFR;
+    C.SpellingGroups = SpellingGroups;
+    C.classifySpelling = classifySpelling;
     C.phonemeToSon = phonemeToSon;
     C.vowelPhonemes = vowelPhonemes;
     C.consonantPhonemes = consonantPhonemes;

@@ -19,6 +19,7 @@ window.Colorization = window.Colorization || {};
 
         // Build UI
         C.Config.buildSoundGrid();
+        C.Config.buildLettresGrid();
         initTabs();
         initEventHandlers();
 
@@ -157,17 +158,26 @@ window.Colorization = window.Colorization || {};
             });
         }
 
-        // BPDQ color pickers
-        ['b', 'p', 'd', 'q'].forEach(function(letter) {
-            var picker = document.getElementById('bpdq-' + letter);
-            if (picker) {
-                picker.addEventListener('input', function() {
-                    C.Config.current.bpdq[letter] = C.Config.hexToRgb(this.value);
-                    var letterEl = this.parentElement.querySelector('.bpdq-letter');
-                    if (letterEl) letterEl.style.color = this.value;
-                });
+        // Lettres à discriminer — ajout d'une nouvelle lettre
+        var btnAddLettre = document.getElementById('btn-add-lettre');
+        var addLettreInput = document.getElementById('add-lettre-input');
+        var addLettreColor = document.getElementById('add-lettre-color');
+        function handleAddLettre() {
+            if (!addLettreInput || !addLettreColor) return;
+            var added = C.Config.addLettre(addLettreInput.value, C.Config.hexToRgb(addLettreColor.value));
+            if (added) {
+                addLettreInput.value = '';
+                C.Config.buildLettresGrid();
             }
-        });
+        }
+        if (btnAddLettre) {
+            btnAddLettre.addEventListener('click', handleAddLettre);
+        }
+        if (addLettreInput) {
+            addLettreInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') handleAddLettre();
+            });
+        }
 
         // Voyelles/Consonnes color pickers
         var colorVoy = document.getElementById('color-voyelles');

@@ -15,7 +15,7 @@
         <div class="plugin-header">
             <img src="resources/plai-logo.jpg" alt="Logo PLAI" class="plugin-logo">
             <h2>Colori<span class="accent">ƨ</span>ation</h2>
-            <span class="version">PLAI — v1.0</span>
+            <span class="version">PLAI — v1.0.1</span>
         </div>
 
         <!-- Tabs -->
@@ -133,29 +133,20 @@
         <!-- Tab: Letters -->
         <div class="tab-content" id="tab-lettres">
             <div class="section">
-                <h3>Lettres b/d/p/q</h3>
-                <p class="help-text">Aide à la discrimination visuelle des lettres miroir.</p>
-                <div class="bpdq-grid">
-                    <div class="bpdq-item">
-                        <span class="bpdq-letter" style="color:#FF0000">b</span>
-                        <input type="color" id="bpdq-b" value="#FF0000">
-                    </div>
-                    <div class="bpdq-item">
-                        <span class="bpdq-letter" style="color:#006400">p</span>
-                        <input type="color" id="bpdq-p" value="#006400">
-                    </div>
-                    <div class="bpdq-item">
-                        <span class="bpdq-letter" style="color:#0000FF">d</span>
-                        <input type="color" id="bpdq-d" value="#0000FF">
-                    </div>
-                    <div class="bpdq-item">
-                        <span class="bpdq-letter" style="color:#8B4513">q</span>
-                        <input type="color" id="bpdq-q" value="#8B4513">
-                    </div>
+                <h3>Lettres à discriminer</h3>
+                <p class="help-text">Choisissez les lettres à différencier visuellement : les 4 lettres miroir
+                (b/d/p/q) par défaut, ou toute autre paire utile à votre groupe (v/f, t/d, m/n...).</p>
+                <div class="lettres-grid" id="lettres-grid">
+                    <!-- Generated dynamically by config.js -->
+                </div>
+                <div class="add-lettre-row">
+                    <input type="text" id="add-lettre-input" maxlength="1" placeholder="lettre" class="add-lettre-input">
+                    <input type="color" id="add-lettre-color" value="#333333">
+                    <button id="btn-add-lettre" class="btn btn-sm">+ Ajouter</button>
                 </div>
                 <div class="action-bar">
                     <button id="btn-colorize-bpdq" class="btn btn-primary">
-                        Coloriser b/d/p/q
+                        Coloriser les lettres choisies
                     </button>
                 </div>
             </div>
@@ -260,5 +251,20 @@
     <script src="scripts/config.js"></script>
     <script src="scripts/colorizer.js"></script>
     <script src="scripts/plugin.js"></script>
+
+    <!--
+        Cache hors-ligne + mises à jour silencieuses (utile seulement quand
+        le plugin est chargé depuis une URL distante via config.json →
+        baseUrl). Sans effet — et sans erreur — sur une installation 100%
+        locale, puisque `navigator.serviceWorker` n'est disponible qu'en
+        http(s), jamais en chargement fichier local.
+    -->
+    <script>
+        if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+            navigator.serviceWorker.register('sw.js').catch(function (e) {
+                console.warn('[Colorization PLAI] Service worker non disponible :', e);
+            });
+        }
+    </script>
 </body>
 </html>

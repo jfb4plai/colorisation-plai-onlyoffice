@@ -453,7 +453,8 @@ window.Colorization = window.Colorization || {};
                     var wordInfo = analysis[wi];
                     for (var phi = 0; phi < wordInfo.phonemes.length; phi++) {
                         var phon = wordInfo.phonemes[phi];
-                        var color = C.Config.getPhonemeColor(phon.phoneme);
+                        var phChars = wordInfo.word.substring(phon.start, phon.end + 1);
+                        var color = C.Config.getPhonemeColor(phon.phoneme, phChars);
                         if (color) {
                             for (var ci = phon.start; ci <= phon.end; ci++) {
                                 colorMap[wordInfo.start + ci] = color;

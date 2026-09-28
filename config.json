@@ -4,8 +4,8 @@
         "fr": "Colorisation PLAI"
     },
     "guid": "asc.{C0L0R1Z4-PL41-0000-0000-000000000001}",
-    "version": "1.0.0",
-    "baseUrl": "",
+    "version": "1.0.1",
+    "baseUrl": "https://colorisation-plai-onlyoffice.vercel.app/",
     "minVersion": "7.0.0",
     "variations": [
         {

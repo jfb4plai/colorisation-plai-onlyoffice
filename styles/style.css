@@ -348,30 +348,78 @@ body {
     cursor: pointer;
 }
 
-/* BPDQ Grid */
-.bpdq-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
+/* Lettres à discriminer (liste éditable) */
+.lettres-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
     margin: 8px 0;
 }
 
-.bpdq-item {
+.lettre-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 4px;
+    position: relative;
+    padding: 4px 6px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background: #fafafa;
 }
 
-.bpdq-letter {
+.lettre-letter {
     font-size: 28px;
     font-weight: 700;
     font-family: 'Georgia', serif;
 }
 
-.bpdq-item input[type="color"] {
+.lettre-item input[type="color"] {
     width: 36px;
     height: 24px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 0;
+    cursor: pointer;
+}
+
+.lettre-remove {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 16px;
+    height: 16px;
+    line-height: 14px;
+    padding: 0;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    background: #fff;
+    color: #888;
+    font-size: 11px;
+    cursor: pointer;
+}
+.lettre-remove:hover { background: #ffe0e0; color: #c00; border-color: #e0a0a0; }
+
+.add-lettre-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 8px 0;
+}
+
+.add-lettre-input {
+    width: 48px;
+    padding: 4px 6px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 12px;
+    text-align: center;
+    text-transform: lowercase;
+}
+
+.add-lettre-row input[type="color"] {
+    width: 28px;
+    height: 26px;
     border: 1px solid #ccc;
     border-radius: 3px;
     padding: 0;
